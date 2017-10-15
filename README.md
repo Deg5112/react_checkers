@@ -1,0 +1,1 @@
+Mapped out the rules to checkers, made a component for each piece of the board
