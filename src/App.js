@@ -26,8 +26,8 @@ class App extends Component {
 	
   render() {
     return (
-      <div className="App">
-	      <CheckerBoard />
+      <div className="App d-flex align-items-center">
+	      <CheckerBoard className=""/>
       {/*<AddProject addProject={this.handleAddProject.bind(this)}/>*/}
       {/*<Projects projects={this.state.projects}/>*/}
       </div>

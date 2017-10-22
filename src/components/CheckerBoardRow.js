@@ -18,7 +18,40 @@ class CheckerBoardRow extends Component{
 	
 	render() {
 		return (
-			<div className="row">Row!</div>
+			<div className="row">
+				<div className="col-6">
+					<div className="row">
+						<div className="col-3">
+							1
+						</div>
+						<div className="col-3">
+							2
+						</div>
+						<div className="col-3">
+							3
+						</div>
+						<div className="col-3">
+							4
+						</div>
+					</div>
+				</div>
+				<div className="col-6">
+					<div className="row">
+						<div className="col-3">
+							5
+						</div>
+						<div className="col-3">
+							6
+						</div>
+						<div className="col-3">
+							7
+						</div>
+						<div className="col-3">
+							8
+						</div>
+					</div>
+				</div>
+			</div>
 		);
 	}
 }

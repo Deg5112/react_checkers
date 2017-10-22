@@ -10,6 +10,46 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <style>
+        html,body {
+            height:100%;margin:0;padding:0;
+        }
+
+        #board {
+            width: 60%;
+            height:0;
+            padding-top:60%;
+            margin: 0 auto;
+            border: .5em solid #fc0;
+            -moz-box-sizing:border-box;
+            -webkit-box-sizing:border-box;
+            box-sizing:border-box;
+            position:relative;
+        }
+
+        #board-container {
+            position:absolute;top:0;left:0;right:0;bottom:0
+        }
+
+        .board-row {
+            height:12.5%
+        }
+
+        .board-row>div {
+            height:100%;
+            width:12.5%;
+            display: inline-block;
+        }
+
+        div>div>div:nth-child(odd)>div:nth-child(odd), div>div>div:nth-child(even)>div:nth-child(even) {
+            background: #f00
+        }
+
+        div>div>div:nth-child(odd)>div:nth-child(even), div>div>div:nth-child(even)>div:nth-child(odd) {
+            background: #000
+        }
+    </style>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -25,7 +65,7 @@
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root"></div>
+    <div id="root" ></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

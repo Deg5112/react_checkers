@@ -19,12 +19,33 @@ class CheckerBoard extends Component{
 
 	render() {
 		return (
-			<div className="checker-board">
-				<CheckerBoardRow />
-				<CheckerBoardRow />
-				<CheckerBoardRow />
-				<CheckerBoardRow />
-				<CheckerBoardRow />
+			<div id="board">
+				<div id="board-container">
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+					<div className="board-row">
+						<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+					</div>
+				</div>
 			</div>
 		);
 	}
