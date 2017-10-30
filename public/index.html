@@ -18,36 +18,66 @@
 
         #board {
             width: 60%;
-            height:0;
-            padding-top:60%;
+            padding-top: 80vh;
             margin: 0 auto;
             border: .5em solid #fc0;
             -moz-box-sizing:border-box;
             -webkit-box-sizing:border-box;
             box-sizing:border-box;
             position:relative;
+            top: 4em;
+        }
+
+        @media screen and (max-width: 700px) {
+            #board {
+                width: 100%;
+            }
         }
 
         #board-container {
-            position:absolute;top:0;left:0;right:0;bottom:0
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0
         }
 
-        .board-row {
+        .board-row, .board-row-container {
             height:12.5%
         }
 
-        .board-row>div {
+        .square {
             height:100%;
             width:12.5%;
             display: inline-block;
+            position: relative;
         }
 
-        div>div>div:nth-child(odd)>div:nth-child(odd), div>div>div:nth-child(even)>div:nth-child(even) {
-            background: #f00
+        .red.square {
+            background: #f00;
         }
 
-        div>div>div:nth-child(odd)>div:nth-child(even), div>div>div:nth-child(even)>div:nth-child(odd) {
+        .black.square {
+            background: #000;
+        }
+
+        .checker-piece {
+            border-radius: 50%;
+            border: 1px solid #fc0;
+            width:90%;
+            height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .black.checker-piece {
             background: #000
+        }
+
+        .red.checker-piece {
+            .black.checker-piece
         }
     </style>
     <!--
