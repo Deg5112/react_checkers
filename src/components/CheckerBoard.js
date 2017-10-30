@@ -5,15 +5,11 @@ import Player from './Player.js';
 class CheckerBoard extends Component{
 	constructor(){
 		super();
-		let players = [];
-		let PlayerOne = new Player('player1');
-		let PlayerTwo = new Player('player2');
-		
-		players.push(PlayerOne, PlayerTwo);
+		let players = [(new Player('player1')), (new Player('player2'))];
 		this.state = {
 			checkerBoard: {
 				players: players,
-				rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+				rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] //make this static?
 				}
 			}
 	}
@@ -22,7 +18,39 @@ class CheckerBoard extends Component{
 		//look into state management for differnt views/data models
 		var checkerBoard = this.state.checkerBoard;
 	}
+	
+	checkPlayerTurn() {
+		
+	}
+	
+	didMoveMakeCheckerKing() {
+		
+	}
+	
+	moveChecker() {
+		
+	}
+	
+	canMoveChecker() {
+		
+	}
+	
+	canJumpChecker() {
+		
+	}
+	
+	didPlayerWin() {
+		
+	}
+	
+	newGame() {
+		
+	}
 
+	decideTurn() {
+		
+	}
+	
 	render() {
 		let checkerboardRows = [];
 		for (let x = 1; x<9; x++) {

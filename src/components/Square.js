@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Checker from './Checker';
 
 class CheckerBoardRow extends Component{
 	constructor(){
@@ -28,7 +29,11 @@ class CheckerBoardRow extends Component{
 	}
 	
 	render() {
-		return (<div className={this.getSquareClass()} key={this.props.squareIndex}></div>);
+		return (
+			<div className={this.getSquareClass()} key={this.props.squareIndex}>
+				<Checker></Checker>
+			</div>
+		);
 	}
 }
 

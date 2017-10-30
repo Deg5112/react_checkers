@@ -3,6 +3,7 @@ class Player {
 		this.state = {
 			_id: null,
 			name: name,
+			email: null,
 			computer: false,
 		}
 	}

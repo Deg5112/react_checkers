@@ -19,30 +19,6 @@ class CheckerBoardRow extends Component{
 		var PlayerOne = {}
 	}
 	
-	checkPlayerTurn() {
-		
-	}
-	
-	didMoveMakeCheckerKing() {
-		
-	}
-	
-	moveChecker() {
-		
-	}
-	
-	canJumpChecker() {
-		
-	}
-	
-	didPlayerWin() {
-		
-	}
-	
-	newGame() {
-		
-	}
-
 	render() {
 		let squares = [];
 		for (var x = 1; x < 9; x++) {
