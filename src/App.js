@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import CheckerBoard from './components/CheckerBoard';
+
+import * as testActions from './testActions'
+console.log(this);
 
 class App extends Component {
 	constructor(){
 		super();
+		
+		
 		this.state = {
 			checkerBoard: {
 				players: [],
@@ -15,6 +21,8 @@ class App extends Component {
 		//look into state management for differnt views/data models
 		var checkerBoard = this.state.checkerBoard;
 		var PlayerOne = {};
+		console.log(this);
+		console.log();
 	}
 	
 	
@@ -36,3 +44,13 @@ class App extends Component {
 }
 
 export default App;
+
+const mapStateToProps = (state) => ({
+	test: state.test,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators({ getAPIData }, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
