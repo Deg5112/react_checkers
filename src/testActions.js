@@ -1,6 +1,6 @@
-export function testAction(testParam) {
-	return {
-		type: 'test',
-		testParam
-	}
-}
+const setCheckerboard = (checkerBoard) => ({
+	type: 'checkerBoard',
+	value: checkerBoard
+});
+
+export default setCheckerboard;

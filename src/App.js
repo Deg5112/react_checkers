@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import CheckerBoard from './components/CheckerBoard';
+// import CheckerBoard from './components/CheckerBoard';
 
-import * as testActions from './testActions'
-console.log(this);
+import setCheckerboard from './testActions';
+console.log('testAction', setCheckerboard);
 
 class App extends Component {
 	constructor(){
 		super();
-		
-<<<<<<< Updated upstream
-		
-=======
->>>>>>> Stashed changes
-		this.state = {
-			checkerBoard: {
-				players: [],
-			}
-		}
+		console.log('constructor this', this);
 	}
 	
 	componentWillMount() {
 		//look into state management for differnt views/data models
-		var checkerBoard = this.state.checkerBoard;
-		var PlayerOne = {};
-		console.log(this);
-		console.log();
+		// var checkerBoard = this.state.checkerBoard;
+		// var PlayerOne = {};
+		console.log('Will mount this', this);
 	}
 	
 	
@@ -38,22 +29,24 @@ class App extends Component {
   render() {
     return (
       <div className="App d-flex align-items-center">
-	      <CheckerBoard className=""/>
-      {/*<AddProject addProject={this.handleAddProject.bind(this)}/>*/}
-      {/*<Projects projects={this.state.projects}/>*/}
+	    
       </div>
     );
   }
 }
 
-export default App;
-
+// export default App;
 const mapStateToProps = (state) => ({
-	test: state.test,
+	checkerBoard: state.checkerBoard
 });
 
-const mapDispatchToProps = (dispatch) => ({
-	actions: bindActionCreators({ getAPIData }, dispatch),
-});
+
+const mapDispatchToProps = (dispatch) => {
+	console.log('actions', setCheckerboard);
+	// console.log('bind test', bindActionCreators({Actions}, dispatch));
+	return {actions: bindActionCreators({setCheckerboard}, dispatch)}
+};
+ 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+//
