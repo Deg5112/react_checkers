@@ -8,7 +8,6 @@ class CheckerBoardRow extends Component{
 			checkerBoard: {
 				players: [],
 				playerTurn: null,
-				
 			}
 		}
 	}

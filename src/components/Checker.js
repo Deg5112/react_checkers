@@ -43,7 +43,6 @@ class Checker extends Component{
 	}
 	
 	render() {
-		
 		return (
 			<div className="checker" key={this.props.rowIndex}></div>
 		);

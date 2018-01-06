@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import CheckerBoardRow from './CheckerBoardRow';
 import Player from './Player.js';
+import { connect } from 'react-redux';
 
 class CheckerBoard extends Component{
 	constructor(){
@@ -56,15 +57,33 @@ class CheckerBoard extends Component{
 		for (let x = 1; x<9; x++) {
 			checkerboardRows.push(<CheckerBoardRow rowIndex={x} key={x}></CheckerBoardRow>)
 		}
-		
+		{/*<div id="board">*/}
+			{/*<div id="board-container">*/}
+				{/*{checkerboardRows}*/}
+			{/*</div>*/}
+		{/*</div>*/}
 		return (
-			<div id="board">
-				<div id="board-container">
-					{checkerboardRows}
-				</div>
-			</div>
+			<input
+				value={test}
+				ref={node => {input = node;}}
+				onChange={() => onFilter(input.value)} />
 		);
 	}
 }
 
-export default CheckerBoard;
+const mapStateToProps = (state) => {
+	return {
+		filter: state.filter
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onFilter: filterText => dispatch(filterTable(filterText))
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CheckerBoard);

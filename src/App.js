@@ -9,7 +9,10 @@ class App extends Component {
 	constructor(){
 		super();
 		
+<<<<<<< Updated upstream
 		
+=======
+>>>>>>> Stashed changes
 		this.state = {
 			checkerBoard: {
 				players: [],

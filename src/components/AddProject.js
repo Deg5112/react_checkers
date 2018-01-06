@@ -31,7 +31,7 @@ class AddProject extends Component {
 		return (
 			<div className="add project">
 				<h3> Add Project </h3>
-				<form onSubmit={this.handleSubmit.bind(this)}>sdf
+				<form onSubmit={this.handleSubmit.bind(this)}>
 					<div>
 						<label>Title</label> <br />
 						<input type="text" ref="title" />
