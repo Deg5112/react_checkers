@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../testActions';
 import CheckerBoardRow from './CheckerBoardRow';
 import Player from './Player.js';
-import { connect } from 'react-redux';
 
 class CheckerBoard extends Component{
 	constructor(){
@@ -16,8 +18,7 @@ class CheckerBoard extends Component{
 	}
 	
 	componentWillMount(){
-		//look into state management for differnt views/data models
-		var checkerBoard = this.state.checkerBoard;
+		
 	}
 	
 	checkPlayerTurn() {
@@ -57,33 +58,29 @@ class CheckerBoard extends Component{
 		for (let x = 1; x<9; x++) {
 			checkerboardRows.push(<CheckerBoardRow rowIndex={x} key={x}></CheckerBoardRow>)
 		}
-		{/*<div id="board">*/}
-			{/*<div id="board-container">*/}
-				{/*{checkerboardRows}*/}
-			{/*</div>*/}
-		{/*</div>*/}
 		return (
-			<input
-				value={test}
-				ref={node => {input = node;}}
-				onChange={() => onFilter(input.value)} />
+			<div id="board">
+				<div id="board-container">
+					{checkerboardRows}
+				</div>
+			</div>
 		);
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		filter: state.filter
-	};
-};
+// export default App;
+const mapStateToProps = (state) => ({
+	checkerBoard: state.checkerBoard
+});
+
 
 const mapDispatchToProps = (dispatch) => {
-	return {
-		onFilter: filterText => dispatch(filterTable(filterText))
-	};
+	console.log('actions', Actions);
+	// console.log('bind test', bindActionCreators({Actions}, dispatch));
+	return {actions: bindActionCreators({Actions}, dispatch)}
 };
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(CheckerBoard);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckerBoard);
+
+

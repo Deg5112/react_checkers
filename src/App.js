@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-// import CheckerBoard from './components/CheckerBoard';
+import * as Actions from './testActions';
+import CheckerBoard from './components/CheckerBoard.js';
 
-import setCheckerboard from './testActions';
-console.log('testAction', setCheckerboard);
 
 class App extends Component {
 	constructor(){
 		super();
-		console.log('constructor this', this);
 	}
 	
 	componentWillMount() {
-		//look into state management for differnt views/data models
-		// var checkerBoard = this.state.checkerBoard;
-		// var PlayerOne = {};
-		console.log('Will mount this', this);
 	}
 	
 	
@@ -29,7 +23,7 @@ class App extends Component {
   render() {
     return (
       <div className="App d-flex align-items-center">
-	    
+	      <CheckerBoard className=""/>
       </div>
     );
   }
@@ -42,9 +36,8 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = (dispatch) => {
-	console.log('actions', setCheckerboard);
-	// console.log('bind test', bindActionCreators({Actions}, dispatch));
-	return {actions: bindActionCreators({setCheckerboard}, dispatch)}
+	console.log('actions', Actions);
+	return {actions: bindActionCreators({Actions}, dispatch)}
 };
  
 
