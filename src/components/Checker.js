@@ -11,12 +11,13 @@ class Checker extends Component{
 	}
 	
 	componentWillMount() {
+		console.log(this.props.coordinate);
 		//look into state management for differnt views/data models
-		let state = this.state;
-		state.playerId = this.props.playerId;
-		state.coordinate = this.props.coordinate;
-		state.isKing = this.props.isKing;
-		this.setState(state);
+		// let state = this.state;
+		// state.playerId = this.props.playerId;
+		// state.coordinate = this.props.coordinate;
+		// state.isKing = this.props.isKing;
+		// this.setState(state);
 	}
 	
 	getIsKing() {

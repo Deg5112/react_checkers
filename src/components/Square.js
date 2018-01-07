@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../testActions';
 import Checker from './Checker';
 
-class CheckerBoardRow extends Component{
+class Square extends Component{
 	constructor(){
 		super();
 	}
 	
 	componentWillMount() {
+		
 	}
 	
 	getSquareClass() {
@@ -29,9 +33,13 @@ class CheckerBoardRow extends Component{
 			this.getSquareClass() === 'black square'
 		) {
 			let playerId = rowIndex <= 3 ? 'Player1' : 'Player2';
+			let coordinateMap = this.props.checkerBoard.coordinateMapToColumn.squareIndex;
 			renderSquare = (
 				<div className={squareClass} key={this.props.squareIndex}>
-					<Checker playerId={playerId}></Checker>
+					<Checker
+						playerId={playerId}
+						coordinate={coordinateMap[this.props.squareIndex]+this.props.rowIndex}>
+					</Checker>
 				</div>
 			);
 		} else {
@@ -44,4 +52,15 @@ class CheckerBoardRow extends Component{
 	}
 }
 
-export default CheckerBoardRow;
+// export default App;
+const mapStateToProps = (state) => ({
+	checkerBoard: state.checkerBoard
+});
+
+
+const mapDispatchToProps = (dispatch) => {
+	return {actions: bindActionCreators({Actions}, dispatch)}
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Square);

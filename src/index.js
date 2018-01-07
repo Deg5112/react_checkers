@@ -11,7 +11,18 @@ let players = [(new Player('player1')), (new Player('player2'))];
 let initialState = {
 	checkerBoard: {
 		players: players,
-		rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+		coordinateMapToColumn: {
+			squareIndex: {
+				1: 'A',
+				2: 'B',
+				3: 'C',
+				4: 'D',
+				5: 'E',
+				6: 'F',
+				7: 'G',
+				8: 'H',
+			}
+		},
 		playerTurn: null,
 	}
 };
