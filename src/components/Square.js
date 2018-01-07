@@ -4,11 +4,9 @@ import Checker from './Checker';
 class CheckerBoardRow extends Component{
 	constructor(){
 		super();
-		this.state = {
-			checkerBoard: {
-				players: [],
-			}
-		}
+	}
+	
+	componentWillMount() {
 	}
 	
 	getSquareClass() {
@@ -22,18 +20,27 @@ class CheckerBoardRow extends Component{
 		return squareClass;
 	}
 	
-	componentWillMount() {
-		//look into state management for differnt views/data models
-		var checkerBoard = this.state.checkerBoard;
-		var PlayerOne = {}
-	}
-	
 	render() {
-		return (
-			<div className={this.getSquareClass()} key={this.props.squareIndex}>
-				<Checker></Checker>
-			</div>
-		);
+		const rowIndex = this.props.rowIndex;
+		let squareClass = this.getSquareClass();
+		let renderSquare;
+		if (
+			(rowIndex <= 3 || rowIndex >= 6) &&
+			this.getSquareClass() === 'black square'
+		) {
+			let playerId = rowIndex <= 3 ? 'Player1' : 'Player2';
+			renderSquare = (
+				<div className={squareClass} key={this.props.squareIndex}>
+					<Checker playerId={playerId}></Checker>
+				</div>
+			);
+		} else {
+			renderSquare = (
+				<div className={squareClass} key={this.props.squareIndex}></div>
+			)
+		}
+		
+		return (renderSquare);
 	}
 }
 

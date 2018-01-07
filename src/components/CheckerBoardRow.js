@@ -13,9 +13,6 @@ class CheckerBoardRow extends Component{
 	}
 	
 	componentWillMount() {
-		//look into state management for differnt views/data models
-		var checkerBoard = this.state.checkerBoard;
-		var PlayerOne = {}
 	}
 	
 	render() {

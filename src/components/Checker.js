@@ -43,8 +43,9 @@ class Checker extends Component{
 	}
 	
 	render() {
+		let checkerColor = this.props.playerId === 'Player1' ? 'red' : 'black';
 		return (
-			<div className="checker" key={this.props.rowIndex}></div>
+			<div className={'checker ' + checkerColor} key={this.props.rowIndex}></div>
 		);
 	}
 }

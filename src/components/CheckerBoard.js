@@ -3,18 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from '../testActions';
 import CheckerBoardRow from './CheckerBoardRow';
-import Player from './Player.js';
 
 class CheckerBoard extends Component{
 	constructor(){
 		super();
-		let players = [(new Player('player1')), (new Player('player2'))];
-		this.state = {
-			checkerBoard: {
-				players: players,
-				rows: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'] //make this static?
-				}
-			}
 	}
 	
 	componentWillMount(){
@@ -75,9 +67,8 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = (dispatch) => {
-	console.log('actions', Actions);
 	// console.log('bind test', bindActionCreators({Actions}, dispatch));
-	return {actions: bindActionCreators({Actions}, dispatch)}
+	return {actions: bindActionCreators(Actions, dispatch)}
 };
 
 

@@ -14,12 +14,6 @@ class App extends Component {
 	}
 	
 	
-	handleAddProject(project){
-		// let projects = this.state.projects;
-		// projects.push(project);
-		// this.setState({projects: projects});
-	}
-	
   render() {
     return (
       <div className="App d-flex align-items-center">
@@ -36,7 +30,6 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = (dispatch) => {
-	console.log('actions', Actions);
 	return {actions: bindActionCreators({Actions}, dispatch)}
 };
  
