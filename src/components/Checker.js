@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../testActions';
 
 class Checker extends Component{
-	constructor(){
+	constructor(playerId, coordinate, isKing = false){
 		super();
 		this.state = {
-			playerId: null,
-			coordinate: null,
-			isking: false
+			playerId: playerId,
+			coordinate: coordinate,
+			isking: isKing
 		}
 	}
 	
 	componentWillMount() {
-		console.log(this.props.coordinate);
-		//look into state management for differnt views/data models
-		// let state = this.state;
 		// state.playerId = this.props.playerId;
 		// state.coordinate = this.props.coordinate;
 		// state.isKing = this.props.isKing;
-		// this.setState(state);
 	}
 	
 	getIsKing() {
@@ -43,12 +42,32 @@ class Checker extends Component{
 		return this;
 	}
 	
+	checkerMove() {
+		console.log('checker move', this.props);
+		//put checker currently being moved in store
+		this.props.actions.setCheckerSelectedToMove(this);
+	}
+	
 	render() {
 		let checkerColor = this.props.playerId === 'Player1' ? 'red' : 'black';
 		return (
-			<div className={'checker ' + checkerColor} key={this.props.rowIndex}></div>
+			<div
+				onMouseDown={this.checkerMove.bind(this)}
+				className={'checker ' + checkerColor}
+				key={this.props.rowIndex}
+			></div>
 		);
 	}
 }
 
-export default Checker;
+// export default App;
+const mapStateToProps = (state) => ({
+	playerTurn: state.playerTurn
+});
+
+
+const mapDispatchToProps = (dispatch) => {
+	return {actions: bindActionCreators(Actions, dispatch)}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checker);
