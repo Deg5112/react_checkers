@@ -98,7 +98,6 @@ class Checker extends Component{
 			possibleCoordinateMoves.push(coordinateMoveDownLeft);
 		}
 		
-		console.log(possibleCoordinateMoves);
 		this.props.actions.setPossibleMoveCoordiantes(possibleCoordinateMoves);
 	}
 	
