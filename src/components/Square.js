@@ -6,6 +6,7 @@ import Checker from './Checker';
 
 class Square extends Component{
 	el = null;
+	coordinate = null;
 	blackSquare = false;
 	redSquare = false;
 	
@@ -39,13 +40,13 @@ class Square extends Component{
 		
 		console.log('squareHovered', this);
 		console.log('checker selected to move', this.props.checkerSelectedToMove);
-		
 		//check if the state checker mousedown belongs to state.turn
 	}
 	
 	render() {
 		let coordinateMap = this.props.coordinateMapToColumn.squareIndex;
 		let squareCoordinate = coordinateMap[this.props.squareIndex]+this.props.rowIndex;
+		this.coordinate = squareCoordinate;
 		let squareClass = this.getSquareClass();
 		let renderSquare;
 		let playerId;

@@ -46,6 +46,60 @@ class Checker extends Component{
 		console.log('checker move', this.props);
 		//put checker currently being moved in store
 		this.props.actions.setCheckerSelectedToMove(this);
+		
+		let coordinateSplit = this.props.coordinate.split('');
+		let column = coordinateSplit[0];
+		let rowIndex = coordinateSplit[1];
+		let columnIndex = this.props.coordinateMapToColumn.columnIndex[column];
+		
+		let possibleColumnMoveRight;
+		if (columnIndex < Object.keys(this.props.coordinateMapToColumn.columnIndex).length) {
+			possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + 1];
+		}
+		
+		let possibleColumnMoveleft;
+		if (columnIndex > 1) {
+			possibleColumnMoveleft = this.props.coordinateMapToColumn.squareIndex[columnIndex - 1];
+		}
+		
+		let possibleRowMoveDown;
+		if (rowIndex < 8) {
+			possibleRowMoveDown =  parseInt(rowIndex) + 1;
+		}
+		
+		let possibleRowMoveUp;
+		if (rowIndex > 1) {
+			possibleRowMoveUp =  parseInt(rowIndex) - 1;
+		}
+		
+		let possibleCoordinateMoves = [];
+		
+		let coordinateMoveUpRight;
+		if (possibleRowMoveUp && possibleColumnMoveRight) {
+			coordinateMoveUpRight = possibleColumnMoveRight + possibleRowMoveUp;
+			possibleCoordinateMoves.push(coordinateMoveUpRight);
+		}
+		
+		let coordinateMoveUpLeft;
+		if (possibleRowMoveUp && possibleColumnMoveleft) {
+			coordinateMoveUpLeft = possibleColumnMoveleft + possibleRowMoveUp;
+			possibleCoordinateMoves.push(coordinateMoveUpLeft);
+		}
+		
+		let coordinateMoveDownRight;
+		if (possibleRowMoveDown && possibleColumnMoveleft) {
+			coordinateMoveDownRight = possibleColumnMoveRight + possibleRowMoveDown;
+			possibleCoordinateMoves.push(coordinateMoveDownRight);
+		}
+		
+		let coordinateMoveDownLeft;
+		if (possibleRowMoveDown && possibleColumnMoveleft) {
+			coordinateMoveDownLeft = possibleColumnMoveleft + possibleRowMoveDown;
+			possibleCoordinateMoves.push(coordinateMoveDownLeft);
+		}
+		
+		console.log(possibleCoordinateMoves);
+		this.props.actions.setPossibleMoveCoordiantes(possibleCoordinateMoves);
 	}
 	
 	render() {
@@ -62,7 +116,8 @@ class Checker extends Component{
 
 // export default App;
 const mapStateToProps = (state) => ({
-	playerTurn: state.playerTurn
+	playerTurn: state.playerTurn,
+	coordinateMapToColumn: state.coordinateMapToColumn
 });
 
 
