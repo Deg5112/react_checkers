@@ -75,7 +75,13 @@ class Square extends Component{
 			// checkerBoard.checkerSelectedToMove.props.coordinate
 			
 			//can checker move in that direction
-			
+			// if (rowDiff > 1) {
+			// 	//get checkerRef with the coordinate that's being jumped over and see if it's the opposite player.
+			// 	//if not.. return.. can't jump yourself
+			// 	for(  ) //for loop to get num inbetween and use that to squareIndex map to get the column. so it would be D4
+ 			//
+			//
+			// }
 			
 			// is king?
 			
@@ -122,7 +128,6 @@ class Square extends Component{
 		}
 			
 		if (typeof playerId !== 'undefined'){
-			console.log('playerId passed to sqaure construct', playerId);
 			renderSquare = (
 				<div
 					className={squareClass}
