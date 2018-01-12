@@ -4,15 +4,9 @@ import { connect } from 'react-redux';
 import * as Actions from '../testActions';
 
 class Checker extends Component{
-	playerId = null;
-	coordinate = null;
-	isking = null;
-	
-	constructor(playerId, coordinate, isKing = false){
+	constructor(){
 		super();
-		this.playerId = playerId,
-		this.coordinate = coordinate,
-		this.isking = isKing
+		this.isKing = false;
 	}
 	
 	componentWillMount() {

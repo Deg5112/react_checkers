@@ -7,8 +7,6 @@ import Checker from './Checker';
 class Square extends Component{
 	el = null;
 	coordinate = null;
-	blackSquare = false;
-	redSquare = false;
 	
 	constructor(){
 		super();
@@ -54,7 +52,25 @@ class Square extends Component{
 				return;
 			}
 			
-			if (checkerSelectedToMove.playerId)
+			let currentRow = checkerSelectedToMove.props.coordinate.split('')[1];
+			let newRow = this.coordinate.split('')[1];
+			let rowDiff = Math.abs(Math.abs(currentRow) - Math.abs(newRow));
+			if (checkerSelectedToMove.props.playerId === 'Player1') {
+				//can only move up row
+				console.log('checkerSelected to move', checkerSelectedToMove);
+				if (currentRow > newRow) {
+					if (checkerSelectedToMove.isKing === false) {
+						return;
+					}
+				}
+			} else {
+				//can only move down row
+				if (currentRow < newRow) {
+					if (checkerSelectedToMove.isKing === false) {
+						return;
+					}
+				}
+			}
 			
 			// checkerBoard.checkerSelectedToMove.props.coordinate
 			
@@ -106,6 +122,7 @@ class Square extends Component{
 		}
 			
 		if (typeof playerId !== 'undefined'){
+			console.log('playerId passed to sqaure construct', playerId);
 			renderSquare = (
 				<div
 					className={squareClass}
@@ -114,7 +131,8 @@ class Square extends Component{
 					<Checker
 						ref="child-checker"
 						playerId={playerId}
-						coordinate={squareCoordinate}>
+						coordinate={squareCoordinate}
+					>
 					</Checker>
 				</div>
 			);
@@ -124,7 +142,7 @@ class Square extends Component{
 					ref = {el => this.el = el}
 					className={squareClass}
 					key={this.props.squareIndex}
-					onClick={this.canCheckerMoveToMe.bind(this)}
+					onClick={(event) => { this.canCheckerMoveToMe() }}
 				></div>
 			)
 		}
