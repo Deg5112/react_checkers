@@ -4,40 +4,19 @@ import { connect } from 'react-redux';
 import * as Actions from '../testActions';
 
 class Checker extends Component{
+	playerId = null;
+	coordinate = null;
+	isking = null;
+	
 	constructor(playerId, coordinate, isKing = false){
 		super();
-		this.state = {
-			playerId: playerId,
-			coordinate: coordinate,
-			isking: isKing
-		}
+		this.playerId = playerId,
+		this.coordinate = coordinate,
+		this.isking = isKing
 	}
 	
 	componentWillMount() {
 		this.props.actions.setCheckerRef(this);
-	}
-	
-	getIsKing() {
-		return this.isKing;
-	}
-	
-	setIsKing(isKingBool) {
-		this.isKing = isKingBool;
-		return this;
-	}
-	
-	getPlayerId() {
-		return this.playerId();
-	}
-	
-	setPlayerId(id) {
-		this.playerId = id;
-		return this;
-	}
-	
-	setCoordinate(coordinate) {
-		this.coordinate = coordinate;
-		return this;
 	}
 	
 	checkerMove() {
@@ -116,14 +95,14 @@ class Checker extends Component{
 		}
 		
 		let coordinateMoveDownRight;
-		if (possibleRowMoveDown && possibleColumnMoveleft) {
+		if (possibleRowMoveDown && possibleColumnMoveRight) {
 			coordinateMoveDownRight = possibleColumnMoveRight + possibleRowMoveDown;
 			possibleMovesCoordinate.push(coordinateMoveDownRight);
 		}
 		
 		let coordinateMoveDownRightTwo;
-		if (possibleRowMoveDownTwo && possibleColumnMoveleftTwo) {
-			coordinateMoveDownRightTwo = possibleColumnMoveleftTwo + possibleRowMoveDownTwo;
+		if (possibleRowMoveDownTwo && possibleColumnMoveRightTwo) {
+			coordinateMoveDownRightTwo = possibleColumnMoveRightTwo + possibleRowMoveDownTwo;
 			possibleMovesCoordinate.push(coordinateMoveDownRightTwo);
 		}
 		
@@ -139,6 +118,7 @@ class Checker extends Component{
 			possibleMovesCoordinate.push(coordinateMoveDownLeftTwo);
 		}
 		
+		console.log('poss moves', possibleMovesCoordinate);
 		this.props.actions.setPossibleMoveCoordinates(possibleMovesCoordinate);
 	}
 	

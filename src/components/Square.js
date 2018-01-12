@@ -40,20 +40,28 @@ class Square extends Component{
 		
 		//if it gets this far then the only thing not preventing a move is if the square coordinate is not in
 		//array of possible coordinate
-		let checkerBoard = this.props.checkerBoard;
+		const checkerBoard = this.props.checkerBoard;
+		const { checkerSelectedToMove } = checkerBoard;
+		
 		let playerDidMove = false;
 		if (checkerBoard.possibleMoveCoordinates.includes(this.coordinate)) {
-			//get player who's turn it is..
-			//TODO move this method to an helper/utility class
-			let Player = this.props.checkerBoard.Player1.getIsTurn() ?
+			let Player = checkerBoard.Player1.isTurn === true ?
 				checkerBoard.Player1 :
 				checkerBoard.Player2;
+			
 			//does checker belong to player who's turn it is.
-			if (checkerBoard.checkerSelectedToMove.props.playerId !== Player._id) {
+			if (checkerSelectedToMove.props.playerId !== Player._id) {
 				return;
 			}
 			
-			//can checker move in that direction // is king?
+			if (checkerSelectedToMove.playerId)
+			
+			// checkerBoard.checkerSelectedToMove.props.coordinate
+			
+			//can checker move in that direction
+			
+			
+			// is king?
 			
 			// if ()
 			
@@ -62,8 +70,7 @@ class Square extends Component{
 			console.log('Player CheckMap',Player.checkerMap);
 			console.log('Checker Selected Coordinate',checkerBoard.checkerSelectedToMove.props.coordinate);
 			
-			// if (Player.checkerMap.includes(checkerBoard.checkerSelectedToMove.props.coordinate)) {
-				//now check
+			if (Player.checkerMap.includes(checkerBoard.checkerSelectedToMove.props.coordinate)) {
 				Player.updateCheckerMap(
 					checkerBoard.checkerSelectedToMove.props.coordinate,
 					this.coordinate
@@ -71,12 +78,12 @@ class Square extends Component{
 				
 				checkerBoard[Player._id] = Player;
 				playerDidMove = true;
-			// }
+			}
 		}
 		
 		if (playerDidMove === true) {
-			this.props.checkerBoard.Player1.turn = !this.props.checkerBoard.Player1.turn;
-			this.props.checkerBoard.Player2.turn = !this.props.checkerBoard.Player2.turn;
+			this.props.checkerBoard.Player1.isTurn = !this.props.checkerBoard.Player1.isTurn;
+			this.props.checkerBoard.Player2.isTurn = !this.props.checkerBoard.Player2.isTurn;
 			this.props.actions.setCheckerboard(checkerBoard);
 		}
 	}

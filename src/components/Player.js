@@ -1,29 +1,29 @@
 class Player {
-	id = null;
+	_id = null;
 	name = null;
 	email = null;
-	computer = false;
 	isTurn = false;
 	checkerMap = [];
 	
-	constructor(id, initialCheckerMap, turn = false){
+	constructor(id, initialCheckerMap, isTurn = false){
 		this._id = id;
 		this.checkerMap = initialCheckerMap;
-		this.turn = turn;
+		this.isTurn = isTurn;
+		// this.isComputer = false;
 	}
 	
-	getIsTurn() {
-		return this.turn;
+	get id() {
+		return this._id;
 	}
 	
-	setIsTurn(bool) {
-		this.turn = bool;
-		return this;
-	}
-	
-	getIsComputer() {
-		return this.computer;
-	}
+	// get isComputer() {
+	// 	return this.isComputer;
+	// }
+	//
+	// set isComputer(isComputer) {
+	// 	this.isComputer = isComputer;
+	// 	return this;
+	// }
 	
 	updateCheckerMap(oldCoordinate, newCoordinate) {
 		this.checkerMap.splice(
