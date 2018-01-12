@@ -35,7 +35,8 @@ let initialState = {
 	checkerBoard: {
 		possibleMoveCoordinates: [],
 		checkerSelectedToMove: null,
-		player1:
+		checkerRefs: [],
+		Player1:
 			new Player(
 				'Player1',
 				[
@@ -43,7 +44,7 @@ let initialState = {
 				],
 				true
 			),
-		player2:
+		Player2:
 			new Player(
 				'Player2',
 				[
@@ -56,7 +57,6 @@ let initialState = {
 function rootReducer(state = {}, action) {
 	switch(action.type) {
 		case 'checkerBoard': //this generally doesn't work find out why..
-			console.log('returned state', {...state, checkerBoard: action.value});
 			return {
 				...state,
 				checkerBoard: {
@@ -80,6 +80,18 @@ function rootReducer(state = {}, action) {
 				checkerBoard: {
 					...state.checkerBoard,
 					possibleMoveCoordinates: action.value
+				}
+			};
+		case 'checkerRef':
+			let coordinate = action.value.props.coordinate;
+			return {
+				...state,
+				checkerBoard: {
+					...state.checkerBoard,
+					checkerRefs: {
+						...state.checkerBoard.checkerRefs,
+						[coordinate]: action.value,
+					}
 				}
 			};
 			

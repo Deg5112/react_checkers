@@ -14,9 +14,7 @@ class Checker extends Component{
 	}
 	
 	componentWillMount() {
-		// state.playerId = this.props.playerId;
-		// state.coordinate = this.props.coordinate;
-		// state.isKing = this.props.isKing;
+		this.props.actions.setCheckerRef(this);
 	}
 	
 	getIsKing() {
@@ -43,7 +41,6 @@ class Checker extends Component{
 	}
 	
 	checkerMove() {
-		console.log('checker move', this.props);
 		//put checker currently being moved in store
 		this.props.actions.setCheckerSelectedToMove(this);
 		
@@ -57,9 +54,19 @@ class Checker extends Component{
 			possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + 1];
 		}
 		
+		let possibleColumnMoveRightTwo;
+		if (columnIndex < Object.keys(this.props.coordinateMapToColumn.columnIndex).length) {
+			possibleColumnMoveRightTwo = this.props.coordinateMapToColumn.squareIndex[columnIndex + 2];
+		}
+		
 		let possibleColumnMoveleft;
 		if (columnIndex > 1) {
 			possibleColumnMoveleft = this.props.coordinateMapToColumn.squareIndex[columnIndex - 1];
+		}
+		
+		let possibleColumnMoveleftTwo;
+		if (columnIndex > 2) {
+			possibleColumnMoveleftTwo = this.props.coordinateMapToColumn.squareIndex[columnIndex - 2];
 		}
 		
 		let possibleRowMoveDown;
@@ -67,38 +74,72 @@ class Checker extends Component{
 			possibleRowMoveDown =  parseInt(rowIndex) + 1;
 		}
 		
+		let possibleRowMoveDownTwo;
+		if (rowIndex < 7) {
+			possibleRowMoveDownTwo =  parseInt(rowIndex) + 2;
+		}
+		
 		let possibleRowMoveUp;
 		if (rowIndex > 1) {
 			possibleRowMoveUp =  parseInt(rowIndex) - 1;
 		}
 		
-		let possibleCoordinateMoves = [];
+		let possibleRowMoveUpTwo;
+		if (rowIndex > 2) {
+			possibleRowMoveUpTwo =  parseInt(rowIndex) - 2;
+		}
+		
+		let possibleMovesCoordinate = [];
 		
 		let coordinateMoveUpRight;
 		if (possibleRowMoveUp && possibleColumnMoveRight) {
 			coordinateMoveUpRight = possibleColumnMoveRight + possibleRowMoveUp;
-			possibleCoordinateMoves.push(coordinateMoveUpRight);
+			possibleMovesCoordinate.push(coordinateMoveUpRight);
+		}
+		
+		let coordinateMoveUpRightTwo;
+		if (possibleRowMoveUpTwo && possibleColumnMoveRightTwo) {
+			coordinateMoveUpRightTwo = possibleColumnMoveRightTwo + possibleRowMoveUpTwo;
+			possibleMovesCoordinate.push(coordinateMoveUpRightTwo);
 		}
 		
 		let coordinateMoveUpLeft;
 		if (possibleRowMoveUp && possibleColumnMoveleft) {
 			coordinateMoveUpLeft = possibleColumnMoveleft + possibleRowMoveUp;
-			possibleCoordinateMoves.push(coordinateMoveUpLeft);
+			possibleMovesCoordinate.push(coordinateMoveUpLeft);
+		}
+		
+		let coordinateMoveUpLeftTwo;
+		if (possibleRowMoveUpTwo && possibleColumnMoveleftTwo) {
+			coordinateMoveUpLeftTwo = possibleColumnMoveleftTwo + possibleRowMoveUpTwo;
+			possibleMovesCoordinate.push(coordinateMoveUpLeftTwo);
 		}
 		
 		let coordinateMoveDownRight;
 		if (possibleRowMoveDown && possibleColumnMoveleft) {
 			coordinateMoveDownRight = possibleColumnMoveRight + possibleRowMoveDown;
-			possibleCoordinateMoves.push(coordinateMoveDownRight);
+			possibleMovesCoordinate.push(coordinateMoveDownRight);
+		}
+		
+		let coordinateMoveDownRightTwo;
+		if (possibleRowMoveDownTwo && possibleColumnMoveleftTwo) {
+			coordinateMoveDownRightTwo = possibleColumnMoveleftTwo + possibleRowMoveDownTwo;
+			possibleMovesCoordinate.push(coordinateMoveDownRightTwo);
 		}
 		
 		let coordinateMoveDownLeft;
 		if (possibleRowMoveDown && possibleColumnMoveleft) {
 			coordinateMoveDownLeft = possibleColumnMoveleft + possibleRowMoveDown;
-			possibleCoordinateMoves.push(coordinateMoveDownLeft);
+			possibleMovesCoordinate.push(coordinateMoveDownLeft);
 		}
 		
-		this.props.actions.setPossibleMoveCoordiantes(possibleCoordinateMoves);
+		let coordinateMoveDownLeftTwo;
+		if (possibleRowMoveDownTwo && possibleColumnMoveleftTwo) {
+			coordinateMoveDownLeftTwo = possibleColumnMoveleftTwo + possibleRowMoveDownTwo;
+			possibleMovesCoordinate.push(coordinateMoveDownLeftTwo);
+		}
+		
+		this.props.actions.setPossibleMoveCoordinates(possibleMovesCoordinate);
 	}
 	
 	render() {
@@ -113,12 +154,10 @@ class Checker extends Component{
 	}
 }
 
-// export default App;
 const mapStateToProps = (state) => ({
 	playerTurn: state.playerTurn,
 	coordinateMapToColumn: state.coordinateMapToColumn
 });
-
 
 const mapDispatchToProps = (dispatch) => {
 	return {actions: bindActionCreators(Actions, dispatch)}

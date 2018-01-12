@@ -46,7 +46,6 @@ class CheckerBoard extends Component{
 	}
 	
 	render() {
-		console.log('board rendered!');
 		let checkerboardRows = [];
 		for (let x = 1; x<9; x++) {
 			checkerboardRows.push(<CheckerBoardRow rowIndex={x} key={x}></CheckerBoardRow>)

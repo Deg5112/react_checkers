@@ -13,9 +13,15 @@ export const setInitialCheckersState = (checkers) => ({
 	value: checkers
 });
 
-export const setPossibleMoveCoordiantes = (possibleMoveCoordinates) => ({
+export const setPossibleMoveCoordinates = (possibleMoveCoordinates) => ({
 	type: 'possibleMoveCoordinates',
 	value: possibleMoveCoordinates
 });
+
+export const setCheckerRef = (checkerRef) => ({
+	type: 'checkerRef',
+	value: checkerRef
+});
+
 
 

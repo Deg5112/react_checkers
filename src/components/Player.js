@@ -26,16 +26,11 @@ class Player {
 	}
 	
 	updateCheckerMap(oldCoordinate, newCoordinate) {
-		console.log('before update', this.checkerMap);
 		this.checkerMap.splice(
 			this.getIndexOfCoordinateInCheckerMap(oldCoordinate),
 			1,
 			newCoordinate
-		)
-		console.log('old coordinate: '+oldCoordinate,
-			'new coordiante; '+newCoordinate);
-		
-		console.log('after update', this.checkerMap);
+		);
 	}
 	
 	getIndexOfCoordinateInCheckerMap(coordinate){
