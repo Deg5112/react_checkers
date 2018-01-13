@@ -10,7 +10,7 @@ class CheckerBoard extends Component{
 	}
 	
 	componentWillMount(){
-		
+		this.props.actions.setCheckerBoardRef(this);
 	}
 	
 	checkPlayerTurn() {
@@ -45,6 +45,35 @@ class CheckerBoard extends Component{
 		
 	}
 	
+	moveChecker(Player, newCoordinate) {
+		Player.checkerMap.splice(
+			this.getIndexOfCoordinateInCheckerMap(
+				Player,
+				this.props.checkerBoard.checkerSelectedToMove.props.coordinate
+			),
+			1,
+			newCoordinate
+		);
+	}
+	
+	jumpChecker(Player, coordinate) {
+		Player.checkerMap.splice(
+				this.getIndexOfCoordinateInCheckerMap(Player, coordinate),
+				1,
+			);
+	}
+	
+	getIndexOfCoordinateInCheckerMap(Player, coordinate){
+		const checkerMap = Player.checkerMap;
+		const checkerMapLength = checkerMap.length;
+		
+		for (let x = 0; x<checkerMapLength; x++) {
+			if (checkerMap[x] === coordinate) {
+				return x;
+			}
+		}
+	}
+	
 	render() {
 		let checkerboardRows = [];
 		for (let x = 1; x<9; x++) {
@@ -67,7 +96,6 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = (dispatch) => {
-	// console.log('bind test', bindActionCreators({Actions}, dispatch));
 	return {actions: bindActionCreators(Actions, dispatch)}
 };
 

@@ -8,10 +8,6 @@ export const setCheckerSelectedToMove = (checkerSelectedToMove) => ({
 	value: checkerSelectedToMove
 });
 
-export const setInitialCheckersState = (checkers) => ({
-	type: 'checkers',
-	value: checkers
-});
 
 export const setPossibleMoveCoordinates = (possibleMoveCoordinates) => ({
 	type: 'possibleMoveCoordinates',
@@ -21,6 +17,11 @@ export const setPossibleMoveCoordinates = (possibleMoveCoordinates) => ({
 export const setCheckerRef = (checkerRef) => ({
 	type: 'checkerRef',
 	value: checkerRef
+});
+
+export const setCheckerBoardRef = (checkerBoardRef) => ({
+	type: 'checkerBoardRef',
+	value: checkerBoardRef
 });
 
 

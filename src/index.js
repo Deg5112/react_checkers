@@ -6,9 +6,6 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import Player from './components/Player.js';
 
-//this should be imported, use combineReducers
-let players = [(new Player('player1')), (new Player('player2'))];
-
 let initialState = {
 	coordinateMapToColumn: {
 		squareIndex: {
@@ -35,6 +32,7 @@ let initialState = {
 	checkerBoard: {
 		possibleMoveCoordinates: [],
 		checkerSelectedToMove: null,
+		checkerBoardRef: null,
 		checkerRefs: [],
 		Player1:
 			new Player(
@@ -96,6 +94,21 @@ function rootReducer(state = {}, action) {
 						...state.checkerBoard.checkerRefs,
 						[coordinate]: action.value,
 					}
+				}
+			};
+		case 'checkerBoardRef':
+			console.log('new state after checkerboardRefSet',{
+				...state,
+				checkerBoard: {
+					...state.checkerBoard,
+					checkerBoardRef: action.value
+				}
+			});
+			return {
+				...state,
+				checkerBoard: {
+					...state.checkerBoard,
+					checkerBoardRef: action.value
 				}
 			};
 			

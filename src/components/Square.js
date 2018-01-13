@@ -36,78 +36,90 @@ class Square extends Component{
 			return false;
 		}
 		
-		//if it gets this far then the only thing not preventing a move is if the square coordinate is not in
-		//array of possible coordinate
 		const checkerBoard = this.props.checkerBoard;
 		const { checkerSelectedToMove } = checkerBoard;
 		
-		let playerDidMove = false;
-		if (checkerBoard.possibleMoveCoordinates.includes(this.coordinate)) {
-			let Player = checkerBoard.Player1.isTurn === true ?
-				checkerBoard.Player1 :
-				checkerBoard.Player2;
-			
-			//does checker belong to player who's turn it is.
-			if (checkerSelectedToMove.props.playerId !== Player._id) {
+		if (!checkerBoard.possibleMoveCoordinates.includes(this.coordinate)) {
+			return;
+		}
+		
+		let PlayerIsTurn = null;
+		let	PlayerNotIsTurn = null;
+		
+		if (checkerBoard.Player1.isTurn === true) {
+			PlayerIsTurn = checkerBoard.Player1;
+			PlayerNotIsTurn = checkerBoard.Player2;
+		} else {
+			PlayerIsTurn = checkerBoard.Player2;
+			PlayerNotIsTurn = checkerBoard.Player1;
+		}
+		
+		if (! PlayerIsTurn.checkerMap.includes(checkerBoard.checkerSelectedToMove.props.coordinate)) {
+			return;
+		}
+		
+		//does checker belong to player who's turn it is.
+		if (checkerSelectedToMove.props.playerId !== PlayerIsTurn._id) {
+			return;
+		}
+		
+		let checkerSelectedCoordinateSplit = checkerSelectedToMove.props.coordinate.split('');
+		let currentRowIndex = parseInt(checkerSelectedCoordinateSplit[1]);
+		let currentColumnLetter = checkerSelectedCoordinateSplit[0];
+		
+		let newRowCoordinateSplit = this.coordinate.split('');
+		let newRowIndex = parseInt(newRowCoordinateSplit[1]);
+		let newColumnLetter = newRowCoordinateSplit[0];
+		
+		if (checkerSelectedToMove.props.playerId === 'Player1') {
+			if (
+				currentRowIndex > newRowIndex &&
+				checkerSelectedToMove.isKing === false
+			) {
 				return;
 			}
-			
-			let currentRow = checkerSelectedToMove.props.coordinate.split('')[1];
-			let newRow = this.coordinate.split('')[1];
-			let rowDiff = Math.abs(Math.abs(currentRow) - Math.abs(newRow));
-			if (checkerSelectedToMove.props.playerId === 'Player1') {
-				//can only move up row
-				console.log('checkerSelected to move', checkerSelectedToMove);
-				if (currentRow > newRow) {
-					if (checkerSelectedToMove.isKing === false) {
-						return;
-					}
-				}
-			} else {
-				//can only move down row
-				if (currentRow < newRow) {
-					if (checkerSelectedToMove.isKing === false) {
-						return;
-					}
-				}
-			}
-			
-			// checkerBoard.checkerSelectedToMove.props.coordinate
-			
-			//can checker move in that direction
-			// if (rowDiff > 1) {
-			// 	//get checkerRef with the coordinate that's being jumped over and see if it's the opposite player.
-			// 	//if not.. return.. can't jump yourself
-			// 	for(  ) //for loop to get num inbetween and use that to squareIndex map to get the column. so it would be D4
- 			//
-			//
-			// }
-			
-			// is king?
-			
-			// if ()
-			
-			//if soo.. remove selected checker coordinate from player checkerMap, add
-			//the selected square coordinate
-			console.log('Player CheckMap',Player.checkerMap);
-			console.log('Checker Selected Coordinate',checkerBoard.checkerSelectedToMove.props.coordinate);
-			
-			if (Player.checkerMap.includes(checkerBoard.checkerSelectedToMove.props.coordinate)) {
-				Player.updateCheckerMap(
-					checkerBoard.checkerSelectedToMove.props.coordinate,
-					this.coordinate
-				);
-				
-				checkerBoard[Player._id] = Player;
-				playerDidMove = true;
+		} else {
+			if (
+				currentRowIndex < newRowIndex &&
+				checkerSelectedToMove.isKing === false
+			) {
+				return;
 			}
 		}
 		
-		if (playerDidMove === true) {
-			this.props.checkerBoard.Player1.isTurn = !this.props.checkerBoard.Player1.isTurn;
-			this.props.checkerBoard.Player2.isTurn = !this.props.checkerBoard.Player2.isTurn;
-			this.props.actions.setCheckerboard(checkerBoard);
+		//can checker move in that direction
+		const columnIndexMap = this.props.coordinateMapToColumn.columnIndex;
+		const squareIndexLetterMap = this.props.coordinateMapToColumn.squareIndex;
+		const rowDiff = Math.abs(Math.abs(currentRowIndex) - Math.abs(newRowIndex));
+		
+		if (rowDiff > 1) {
+			const jumpedRowIndex = (currentRowIndex > newRowIndex) ? currentRowIndex - 1 : currentRowIndex + 1;
+			
+			const currentColumnIndex = columnIndexMap[currentColumnLetter];
+			const newColumnIndex = columnIndexMap[newColumnLetter];
+			const columnJumpedLetter = (currentColumnIndex > newColumnIndex) ?
+				squareIndexLetterMap[currentColumnIndex - 1] : squareIndexLetterMap[currentColumnIndex + 1];
+			
+			const jumpedCoordinate = columnJumpedLetter+jumpedRowIndex;
+			const JumpedCheckerRef = checkerBoard.checkerRefs[jumpedCoordinate];
+		
+			if (JumpedCheckerRef.props.playerId === PlayerIsTurn._id) {
+					return;
+			}
+			
+			this.props.checkerBoard.checkerBoardRef.jumpChecker(PlayerNotIsTurn, JumpedCheckerRef.props.coordinate);
+			checkerBoard[PlayerNotIsTurn._id] = PlayerNotIsTurn;
 		}
+		
+		console.log('checkerboard ref', this.props);
+		this.props.checkerBoard.checkerBoardRef.moveChecker(PlayerIsTurn, this.coordinate);
+		checkerBoard[PlayerIsTurn._id] = PlayerIsTurn;
+		
+		this.props.checkerBoard.Player1.isTurn = !this.props.checkerBoard.Player1.isTurn;
+		this.props.checkerBoard.Player2.isTurn = !this.props.checkerBoard.Player2.isTurn;
+		this.props.actions.setCheckerboard(checkerBoard);
+		
+		console.log(checkerBoard);
 	}
 	
 	render() {
@@ -147,7 +159,7 @@ class Square extends Component{
 					ref = {el => this.el = el}
 					className={squareClass}
 					key={this.props.squareIndex}
-					onClick={(event) => { this.canCheckerMoveToMe() }}
+					onClick={() => { this.canCheckerMoveToMe() }}
 				></div>
 			)
 		}
@@ -160,7 +172,8 @@ class Square extends Component{
 const mapStateToProps = (state) => ({
 	checkerBoard: state.checkerBoard,
 	coordinateMapToColumn: state.coordinateMapToColumn,
-	checkerSelectedToMove: state.checkerSelectedToMove
+	checkerSelectedToMove: state.checkerSelectedToMove,
+	checkerBoardRef: state.checkerBoardRef
 });
 
 

@@ -12,25 +12,16 @@ class Player {
 		// this.isComputer = false;
 	}
 	
-	get id() {
-		return this._id;
-	}
-	
-	// get isComputer() {
-	// 	return this.isComputer;
-	// }
-	//
-	// set isComputer(isComputer) {
-	// 	this.isComputer = isComputer;
-	// 	return this;
-	// }
-	
-	updateCheckerMap(oldCoordinate, newCoordinate) {
+	updateCheckerMap(oldCoordinate, newCoordinate, jumpedCoordinate = null) {
 		this.checkerMap.splice(
 			this.getIndexOfCoordinateInCheckerMap(oldCoordinate),
 			1,
 			newCoordinate
 		);
+		
+		if (jumpedCoordinate) {
+		
+		}
 	}
 	
 	getIndexOfCoordinateInCheckerMap(coordinate){
