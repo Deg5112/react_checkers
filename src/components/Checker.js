@@ -10,6 +10,12 @@ class Checker extends Component{
 	}
 	
 	componentWillMount() {
+		console.log('checker props', this.props);
+		let kingMap = this.props.checkerBoardState[this.props.playerId].kingMap;
+		
+		if (kingMap.includes(this.props.coordinate)) {
+			this.isKing = true;
+		}
 		this.props.actions.setCheckerRef(this);
 	}
 	
@@ -129,6 +135,7 @@ class Checker extends Component{
 }
 
 const mapStateToProps = (state) => ({
+	checkerBoardState: state.checkerBoard,
 	playerTurn: state.playerTurn,
 	coordinateMapToColumn: state.coordinateMapToColumn
 });

@@ -35,7 +35,7 @@ class Square extends Component{
 			return false;
 		}
 		
-		const checkerBoardState = this.props.checkerBoard;
+		const checkerBoardState = this.props.checkerBoardState;
 		const { checkerSelectedToMove } = checkerBoardState;
 		
 		if (!checkerBoardState.possibleMoveCoordinates.includes(this.coordinate)) {
@@ -90,8 +90,10 @@ class Square extends Component{
 		const columnIndexMap = this.props.coordinateMapToColumn.columnIndex;
 		const squareIndexLetterMap = this.props.coordinateMapToColumn.squareIndex;
 		const rowDiff = Math.abs(Math.abs(currentRowIndex) - Math.abs(newRowIndex));
+		//if can move end
 		
 		if (rowDiff > 1) {
+			//if should jump
 			const jumpedRowIndex = (currentRowIndex > newRowIndex) ? currentRowIndex - 1 : currentRowIndex + 1;
 			
 			const currentColumnIndex = columnIndexMap[currentColumnLetter];
@@ -113,7 +115,11 @@ class Square extends Component{
 		checkerBoardState.checkerBoardRef.moveChecker(PlayerIsTurn, this.coordinate);
 		
 		if (PlayerIsTurn._id === 'Player1' && newRowIndex === 8) {
+			checkerBoardState.checkerBoardRef.makeCheckerKing(PlayerIsTurn, this.coordinate)
+		}
 		
+		if (PlayerNotIsTurn._id === 'Player2' && newRowIndex === 1) {
+			checkerBoardState.checkerBoardRef.makeCheckerKing(PlayerNotIsTurn, this.coordinate)
 		}
 		
 		checkerBoardState[PlayerIsTurn._id] = PlayerIsTurn;
@@ -121,6 +127,7 @@ class Square extends Component{
 		checkerBoardState.Player2.isTurn = !checkerBoardState.Player2.isTurn;
 		
 		this.props.actions.setCheckerboard(checkerBoardState);
+		console.log(checkerBoardState);
 	}
 	
 	render() {
@@ -131,12 +138,12 @@ class Square extends Component{
 		let renderSquare;
 		let playerId;
 		//check if the current square coordinate exists in the either of the player coordinate check map
-		if (this.props.checkerBoard.Player1.checkerMap.includes(squareCoordinate)) {
+		if (this.props.checkerBoardState.Player1.checkerMap.includes(squareCoordinate)) {
 			//then we know that player 1 has a checker on this square
 			playerId = 'Player1';
 		}
 		
-		if (this.props.checkerBoard.Player2.checkerMap.includes(squareCoordinate)) {
+		if (this.props.checkerBoardState.Player2.checkerMap.includes(squareCoordinate)) {
 			playerId = 'Player2';
 		}
 			
@@ -171,7 +178,7 @@ class Square extends Component{
 
 // export default App;
 const mapStateToProps = (state) => ({
-	checkerBoard: state.checkerBoard,
+	checkerBoardState: state.checkerBoard,
 	coordinateMapToColumn: state.coordinateMapToColumn,
 	checkerSelectedToMove: state.checkerSelectedToMove,
 	checkerBoardRef: state.checkerBoardRef

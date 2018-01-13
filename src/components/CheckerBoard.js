@@ -74,6 +74,10 @@ class CheckerBoard extends Component{
 		}
 	}
 	
+	makeCheckerKing(Player, coordinate) {
+		Player.kingMap.push(coordinate);
+	}
+	
 	render() {
 		let checkerboardRows = [];
 		for (let x = 1; x<9; x++) {
