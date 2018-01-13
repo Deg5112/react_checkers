@@ -5,11 +5,10 @@ import * as Actions from '../testActions';
 import Checker from './Checker';
 
 class Square extends Component{
-	el = null;
-	coordinate = null;
-	
 	constructor(){
 		super();
+		this.el = null;
+		this.coordinate = null;
 	}
 	
 	componentWillMount() {
@@ -36,25 +35,25 @@ class Square extends Component{
 			return false;
 		}
 		
-		const checkerBoard = this.props.checkerBoard;
-		const { checkerSelectedToMove } = checkerBoard;
+		const checkerBoardState = this.props.checkerBoard;
+		const { checkerSelectedToMove } = checkerBoardState;
 		
-		if (!checkerBoard.possibleMoveCoordinates.includes(this.coordinate)) {
+		if (!checkerBoardState.possibleMoveCoordinates.includes(this.coordinate)) {
 			return;
 		}
 		
 		let PlayerIsTurn = null;
 		let	PlayerNotIsTurn = null;
 		
-		if (checkerBoard.Player1.isTurn === true) {
-			PlayerIsTurn = checkerBoard.Player1;
-			PlayerNotIsTurn = checkerBoard.Player2;
+		if (checkerBoardState.Player1.isTurn === true) {
+			PlayerIsTurn = checkerBoardState.Player1;
+			PlayerNotIsTurn = checkerBoardState.Player2;
 		} else {
-			PlayerIsTurn = checkerBoard.Player2;
-			PlayerNotIsTurn = checkerBoard.Player1;
+			PlayerIsTurn = checkerBoardState.Player2;
+			PlayerNotIsTurn = checkerBoardState.Player1;
 		}
 		
-		if (! PlayerIsTurn.checkerMap.includes(checkerBoard.checkerSelectedToMove.props.coordinate)) {
+		if (! PlayerIsTurn.checkerMap.includes(checkerBoardState.checkerSelectedToMove.props.coordinate)) {
 			return;
 		}
 		
@@ -101,25 +100,27 @@ class Square extends Component{
 				squareIndexLetterMap[currentColumnIndex - 1] : squareIndexLetterMap[currentColumnIndex + 1];
 			
 			const jumpedCoordinate = columnJumpedLetter+jumpedRowIndex;
-			const JumpedCheckerRef = checkerBoard.checkerRefs[jumpedCoordinate];
+			const JumpedCheckerRef = checkerBoardState.checkerRefs[jumpedCoordinate];
 		
 			if (JumpedCheckerRef.props.playerId === PlayerIsTurn._id) {
 					return;
 			}
 			
-			this.props.checkerBoard.checkerBoardRef.jumpChecker(PlayerNotIsTurn, JumpedCheckerRef.props.coordinate);
-			checkerBoard[PlayerNotIsTurn._id] = PlayerNotIsTurn;
+			checkerBoardState.checkerBoardRef.jumpChecker(PlayerNotIsTurn, JumpedCheckerRef.props.coordinate);
+			checkerBoardState[PlayerNotIsTurn._id] = PlayerNotIsTurn;
 		}
 		
-		console.log('checkerboard ref', this.props);
-		this.props.checkerBoard.checkerBoardRef.moveChecker(PlayerIsTurn, this.coordinate);
-		checkerBoard[PlayerIsTurn._id] = PlayerIsTurn;
+		checkerBoardState.checkerBoardRef.moveChecker(PlayerIsTurn, this.coordinate);
 		
-		this.props.checkerBoard.Player1.isTurn = !this.props.checkerBoard.Player1.isTurn;
-		this.props.checkerBoard.Player2.isTurn = !this.props.checkerBoard.Player2.isTurn;
-		this.props.actions.setCheckerboard(checkerBoard);
+		if (PlayerIsTurn._id === 'Player1' && newRowIndex === 8) {
 		
-		console.log(checkerBoard);
+		}
+		
+		checkerBoardState[PlayerIsTurn._id] = PlayerIsTurn;
+		checkerBoardState.Player1.isTurn = !checkerBoardState.Player1.isTurn;
+		checkerBoardState.Player2.isTurn = !checkerBoardState.Player2.isTurn;
+		
+		this.props.actions.setCheckerboard(checkerBoardState);
 	}
 	
 	render() {
