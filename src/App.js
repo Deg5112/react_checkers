@@ -5,10 +5,6 @@ import * as Actions from './testActions';
 import CheckerBoard from './components/CheckerBoard.js';
 
 class App extends Component {
-	constructor(){
-		super();
-	}
-	
   render() {
     return (
       <div className="App d-flex align-items-center">

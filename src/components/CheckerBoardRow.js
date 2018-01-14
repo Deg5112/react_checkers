@@ -2,17 +2,9 @@ import React, { Component } from 'react';
 import Square from './Square';
 
 class CheckerBoardRow extends Component{
-	constructor(){
-		super();
-	}
-	
-	componentWillMount() {
-		
-	}
-	
 	render() {
 		let squares = [];
-		for (var x = 1; x < 9; x++) {
+		for (let x = 1; x < 9; x++) {
 			squares.push(
 				<Square
 					squareIndex={x}

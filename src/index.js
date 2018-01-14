@@ -100,13 +100,6 @@ function rootReducer(state = {}, action) {
 				}
 			};
 		case 'checkerBoardRef':
-			console.log('new state after checkerboardRefSet',{
-				...state,
-				checkerBoard: {
-					...state.checkerBoard,
-					checkerBoardRef: action.value
-				}
-			});
 			return {
 				...state,
 				checkerBoard: {

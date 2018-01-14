@@ -10,7 +10,6 @@ class Checker extends Component{
 	}
 	
 	componentWillMount() {
-		console.log('checker props', this.props);
 		let kingMap = this.props.checkerBoardState[this.props.playerId].kingMap;
 		
 		if (kingMap.includes(this.props.coordinate)) {
@@ -50,22 +49,22 @@ class Checker extends Component{
 		
 		let possibleRowMoveDown;
 		if (rowIndex < 8) {
-			possibleRowMoveDown =  parseInt(rowIndex) + 1;
+			possibleRowMoveDown =  parseInt(rowIndex, 10) + 1;
 		}
 		
 		let possibleRowMoveDownTwo;
 		if (rowIndex < 7) {
-			possibleRowMoveDownTwo =  parseInt(rowIndex) + 2;
+			possibleRowMoveDownTwo =  parseInt(rowIndex, 10) + 2;
 		}
 		
 		let possibleRowMoveUp;
 		if (rowIndex > 1) {
-			possibleRowMoveUp =  parseInt(rowIndex) - 1;
+			possibleRowMoveUp =  parseInt(rowIndex, 10) - 1;
 		}
 		
 		let possibleRowMoveUpTwo;
 		if (rowIndex > 2) {
-			possibleRowMoveUpTwo =  parseInt(rowIndex) - 2;
+			possibleRowMoveUpTwo =  parseInt(rowIndex, 10) - 2;
 		}
 		
 		let possibleMovesCoordinate = [];
@@ -123,13 +122,22 @@ class Checker extends Component{
 	}
 	
 	render() {
-		let checkerColor = this.props.playerId === 'Player1' ? 'red' : 'black';
+		let checkerColor = (this.props.playerId === 'Player1') ? 'red' : 'black';
+		let kingClass = (this.isKing === true) ? ' king' : '';
 		return (
 			<div
 				onMouseDown={this.checkerMove.bind(this)}
-				className={'checker ' + checkerColor}
+				className={'checker ' + checkerColor + ' ' + kingClass}
 				key={this.props.rowIndex}
-			></div>
+			>
+				{this.isKing === true ?
+				<img
+					className="king"
+					src='images/king.png'
+					alt="king"
+				/> : null
+				}
+			</div>
 		);
 	}
 }

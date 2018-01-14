@@ -63,11 +63,11 @@ class Square extends Component{
 		}
 		
 		let checkerSelectedCoordinateSplit = checkerSelectedToMove.props.coordinate.split('');
-		let currentRowIndex = parseInt(checkerSelectedCoordinateSplit[1]);
+		let currentRowIndex = parseInt(checkerSelectedCoordinateSplit[1], 10);
 		let currentColumnLetter = checkerSelectedCoordinateSplit[0];
 		
 		let newRowCoordinateSplit = this.coordinate.split('');
-		let newRowIndex = parseInt(newRowCoordinateSplit[1]);
+		let newRowIndex = parseInt(newRowCoordinateSplit[1], 10);
 		let newColumnLetter = newRowCoordinateSplit[0];
 		
 		if (checkerSelectedToMove.props.playerId === 'Player1') {
@@ -114,12 +114,12 @@ class Square extends Component{
 		
 		checkerBoardState.checkerBoardRef.moveChecker(PlayerIsTurn, this.coordinate);
 		
-		if (PlayerIsTurn._id === 'Player1' && newRowIndex === 8) {
-			checkerBoardState.checkerBoardRef.makeCheckerKing(PlayerIsTurn, this.coordinate)
-		}
 		
-		if (PlayerNotIsTurn._id === 'Player2' && newRowIndex === 1) {
-			checkerBoardState.checkerBoardRef.makeCheckerKing(PlayerNotIsTurn, this.coordinate)
+		if (
+			(PlayerIsTurn._id === 'Player1' && newRowIndex === 8) ||
+			(PlayerNotIsTurn._id === 'Player2' && newRowIndex === 1)
+		) {
+			checkerBoardState.checkerBoardRef.makeCheckerKing(PlayerIsTurn, this.coordinate)
 		}
 		
 		checkerBoardState[PlayerIsTurn._id] = PlayerIsTurn;
@@ -127,7 +127,7 @@ class Square extends Component{
 		checkerBoardState.Player2.isTurn = !checkerBoardState.Player2.isTurn;
 		
 		this.props.actions.setCheckerboard(checkerBoardState);
-		console.log(checkerBoardState);
+		console.log('checkerBoardState' ,checkerBoardState);
 	}
 	
 	render() {

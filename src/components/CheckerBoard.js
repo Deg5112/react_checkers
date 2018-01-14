@@ -5,10 +5,6 @@ import * as Actions from '../testActions';
 import CheckerBoardRow from './CheckerBoardRow';
 
 class CheckerBoard extends Component{
-	constructor(){
-		super();
-	}
-	
 	componentWillMount(){
 		this.props.actions.setCheckerBoardRef(this);
 	}
@@ -18,10 +14,6 @@ class CheckerBoard extends Component{
 	}
 	
 	didMoveMakeCheckerKing() {
-		
-	}
-	
-	moveChecker() {
 		
 	}
 	
@@ -46,29 +38,42 @@ class CheckerBoard extends Component{
 	}
 	
 	moveChecker(Player, newCoordinate) {
+		const checkerSelectedToMove = this.props.checkerBoard.checkerSelectedToMove;
 		Player.checkerMap.splice(
-			this.getIndexOfCoordinateInCheckerMap(
+			this.getIndexOfCoordinateInMap(
 				Player,
-				this.props.checkerBoard.checkerSelectedToMove.props.coordinate
+				checkerSelectedToMove.props.coordinate
 			),
 			1,
 			newCoordinate
 		);
+		
+		if (checkerSelectedToMove.isKing === true) {
+			Player.kingMap.splice(
+				this.getIndexOfCoordinateInMap(
+					Player,
+					checkerSelectedToMove.props.coordinate,
+					true
+				),
+				1,
+				newCoordinate
+			);
+		}
 	}
 	
 	jumpChecker(Player, coordinate) {
 		Player.checkerMap.splice(
-				this.getIndexOfCoordinateInCheckerMap(Player, coordinate),
+				this.getIndexOfCoordinateInMap(Player, coordinate),
 				1,
 			);
 	}
 	
-	getIndexOfCoordinateInCheckerMap(Player, coordinate){
-		const checkerMap = Player.checkerMap;
-		const checkerMapLength = checkerMap.length;
+	getIndexOfCoordinateInMap(Player, coordinate, kingMap = false){
+		const map = kingMap === false ? Player.checkerMap : Player.kingMap;
+		const mapLength = map.length;
 		
-		for (let x = 0; x<checkerMapLength; x++) {
-			if (checkerMap[x] === coordinate) {
+		for (let x = 0; x<mapLength; x++) {
+			if (map[x] === coordinate) {
 				return x;
 			}
 		}
