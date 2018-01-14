@@ -117,7 +117,7 @@ class Square extends Component{
 		
 		if (
 			(PlayerIsTurn._id === 'Player1' && newRowIndex === 8) ||
-			(PlayerNotIsTurn._id === 'Player2' && newRowIndex === 1)
+			(PlayerIsTurn._id === 'Player2' && newRowIndex === 1)
 		) {
 			checkerBoardState.checkerBoardRef.makeCheckerKing(PlayerIsTurn, this.coordinate)
 		}
