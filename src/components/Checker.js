@@ -18,22 +18,28 @@ class Checker extends Component{
 		this.props.actions.setCheckerRef(this);
 	}
 	
-	checkerMove() {
+	updateMoveCoordinates(newCoordinateAfterJump) {
 		//put checker currently being moved in store
-		this.props.actions.setCheckerSelectedToMove(this);
+		console.log('newCoordinateAfterJump',newCoordinateAfterJump);
+		let coordinateSplit;
+		if (! newCoordinateAfterJump) {
+			this.props.actions.setCheckerSelectedToMove(this);
+			coordinateSplit = this.props.coordinate.split('');
+		} else {
+			coordinateSplit = newCoordinateAfterJump.split('');
+		}
 		
-		let coordinateSplit = this.props.coordinate.split('');
 		let column = coordinateSplit[0];
 		let rowIndex = coordinateSplit[1];
 		let columnIndex = this.props.coordinateMapToColumn.columnIndex[column];
 		
 		let possibleColumnMoveRight;
-		if (columnIndex < Object.keys(this.props.coordinateMapToColumn.columnIndex).length) {
+		if (columnIndex < 8) {
 			possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + 1];
 		}
 		
 		let possibleColumnMoveRightTwo;
-		if (columnIndex < Object.keys(this.props.coordinateMapToColumn.columnIndex).length) {
+		if (columnIndex < 8) {
 			possibleColumnMoveRightTwo = this.props.coordinateMapToColumn.squareIndex[columnIndex + 2];
 		}
 		
@@ -119,6 +125,8 @@ class Checker extends Component{
 		
 		console.log('poss moves', possibleMovesCoordinate);
 		this.props.actions.setPossibleMoveCoordinates(possibleMovesCoordinate);
+		
+		return possibleMovesCoordinate;
 	}
 	
 	render() {
@@ -126,7 +134,7 @@ class Checker extends Component{
 		let kingClass = (this.isKing === true) ? ' king' : '';
 		return (
 			<div
-				onMouseDown={this.checkerMove.bind(this)}
+				onClick={() => {this.updateMoveCoordinates()}}
 				className={'checker ' + checkerColor + ' ' + kingClass}
 				key={this.props.rowIndex}
 			>

@@ -14,7 +14,7 @@ class CheckerBoard extends Component{
 	}
 	
 	didMoveMakeCheckerKing() {
-		
+	
 	}
 	
 	canMoveChecker() {
@@ -38,7 +38,7 @@ class CheckerBoard extends Component{
 	}
 	
 	moveChecker(Player, newCoordinate) {
-		const checkerSelectedToMove = this.props.checkerBoard.checkerSelectedToMove;
+		let checkerSelectedToMove = this.props.checkerBoardState.checkerSelectedToMove;
 		Player.checkerMap.splice(
 			this.getIndexOfCoordinateInMap(
 				Player,
@@ -100,7 +100,7 @@ class CheckerBoard extends Component{
 
 // export default App;
 const mapStateToProps = (state) => ({
-	checkerBoard: state.checkerBoard
+	checkerBoardState: state.checkerBoard
 });
 
 

@@ -78,6 +78,34 @@ function rootReducer(state = {}, action) {
 					checkerSelectedToMove: action.value
 				}
 			};
+		
+		case 'checkerSelectedToMoveCoordinate':
+			console.log('updates checker selected coordinate', {
+				...state,
+				checkerBoard: {
+					...state.checkerBoard,
+					checkerSelectedToMove: {
+						...state.checkerBoard.checkerSelectedToMove,
+						props: {
+							...state.checkerBoard.checkerSelectedToMove.props,
+							coordinate: action.value
+						}
+					}
+				}
+			});
+			return {
+				...state,
+				checkerBoard: {
+					...state.checkerBoard,
+					checkerSelectedToMove: {
+						...state.checkerBoard.checkerSelectedToMove,
+						props: {
+							...state.checkerBoard.checkerSelectedToMove.props,
+							coordinate: action.value
+						}
+					}
+				}
+			};
 			
 		case 'possibleMoveCoordinates':
 			return {
