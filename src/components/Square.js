@@ -36,7 +36,8 @@ class Square extends Component{
 		}
 		
 		const checkerBoardState = this.props.checkerBoardState;
-		const { checkerSelectedToMove } = checkerBoardState;
+		const { checkerSelectedToMoveCoordinate } = checkerBoardState;
+		const checkerSelectedToMove = checkerBoardState.checkerRefs[checkerSelectedToMoveCoordinate];
 		
 		if (!checkerBoardState.possibleMoveCoordinates.includes(this.coordinate)) {
 			return;
@@ -53,11 +54,6 @@ class Square extends Component{
 			PlayerNotIsTurn = checkerBoardState.Player1;
 		}
 		
-		// if (! PlayerIsTurn.checkerMap.includes(checkerBoardState.checkerSelectedToMove.props.coordinate)) {
-		// 	return;
-		// }
-		
-		//does checker belong to player who's turn it is.
 		if (checkerSelectedToMove.props.playerId !== PlayerIsTurn._id) {
 			return;
 		}
@@ -70,31 +66,15 @@ class Square extends Component{
 		let newRowIndex = parseInt(newRowCoordinateSplit[1], 10);
 		let newColumnLetter = newRowCoordinateSplit[0];
 		
-		if (checkerSelectedToMove.props.playerId === 'Player1') {
-			if (
-				oldRowIndex > newRowIndex &&
-				checkerSelectedToMove.isKing === false
-			) {
-				return;
-			}
-		} else {
-			if (
-				oldRowIndex < newRowIndex &&
-				checkerSelectedToMove.isKing === false
-			) {
-				return;
-			}
-		}
-		
 		//can checker move in that direction
 		const columnIndexMap = this.props.coordinateMapToColumn.columnIndex;
 		const squareIndexLetterMap = this.props.coordinateMapToColumn.squareIndex;
-		const rowDiff = Math.abs(Math.abs(oldRowIndex) - Math.abs(newRowIndex));
-		//if can move end
 		
 		let checkerIsJumping = false;
 		let JumpedCheckerRef;
 		
+		//logic to remove the jumped checker
+		const rowDiff = Math.abs(Math.abs(oldRowIndex) - Math.abs(newRowIndex));
 		if (rowDiff > 1) {
 			//if should jump
 			const jumpedRowIndex = (oldRowIndex > newRowIndex) ? oldRowIndex - 1 : oldRowIndex + 1;
@@ -112,12 +92,14 @@ class Square extends Component{
 			}
 			
 			checkerBoardState.checkerBoardRef.jumpChecker(PlayerNotIsTurn, JumpedCheckerRef.props.coordinate);
+			delete checkerBoardState.checkerRefs[JumpedCheckerRef.props.coordinate];
 			checkerIsJumping = true;
 			checkerBoardState[PlayerNotIsTurn._id] = PlayerNotIsTurn;
 		}
 		
 		checkerBoardState.checkerBoardRef.moveChecker(PlayerIsTurn, this.coordinate);
 		delete checkerBoardState.checkerRefs[checkerSelectedToMove.props.coordinate];
+		//this happens so next time moveChecker runs.. it'll get the latest coordinate but it does not..
 		this.props.actions.setCheckerSelectedToMoveCoordinate(this.coordinate);
 		
 		let justBecameKing = false;
@@ -134,104 +116,15 @@ class Square extends Component{
 			checkerIsJumping === true &&
 			justBecameKing === false
 		) {
-			//get new poss move coordinates
-			let newPossibleMoveCoordiantes = checkerSelectedToMove.updateMoveCoordinates(this.coordinate);
-			const possibleMoveCoordiantesLength = newPossibleMoveCoordiantes.length;
-			
-			for (let i = 0; i<possibleMoveCoordiantesLength; i++) {
-				let possMoveCoordinate = newPossibleMoveCoordiantes[i];
-				let possMoveCoordinateSplit = possMoveCoordinate.split('');
-				let possMoveCoordianteRowIndex = parseInt(possMoveCoordinateSplit[1], 10);
-				let possMoveCoordianteColumnLetter = possMoveCoordinateSplit[0];
-				
-				if (
-					JumpedCheckerRef.props.coordinate === possMoveCoordinate ||
-					checkerSelectedToMove.props.coordinate === possMoveCoordinate
-				) {
-					continue;
-				}
-				
-				let CheckerRef = checkerBoardState.checkerRefs[possMoveCoordinate];
-				//if checker exists at that coordinate and checker.playerId === PlayerIsTurn._id
-				if (!CheckerRef) {
-					continue;
-				}
-				//check if belongs to whoevers turn it is
-				if (CheckerRef.props.playerId === PlayerIsTurn._id) {
-					continue;
-				}
-				//really only care about adjacent, and which direction we go in.. if it's not a king..
-				if (newRowIndex > oldRowIndex) {
-					if (
-						possMoveCoordianteRowIndex < newRowIndex &&
-						checkerSelectedToMove.isKing === false
-					) {
-						continue;
-					}
-					//we only care about adjacent moves to check for jumps
-					if ((newRowIndex + 1) !== possMoveCoordianteRowIndex) {
-						continue;
-					}
-					
-					//get the coordinate of where the checker can jump to
-					let jumpToRowIndex = possMoveCoordianteRowIndex + 1;
-					
-					//if we are thinking of jumping over C7, and we are on D6
-					let jumpToColumnLetter;
-					if (columnIndexMap[newColumnLetter] > columnIndexMap[possMoveCoordianteColumnLetter]) {
-						jumpToColumnLetter = squareIndexLetterMap[columnIndexMap[possMoveCoordianteColumnLetter] - 1]
-					} else {
-						jumpToColumnLetter = squareIndexLetterMap[columnIndexMap[possMoveCoordianteColumnLetter] + 1]
-					}
-					
-					let possJumpToCoordinate = jumpToColumnLetter + jumpToRowIndex;
-					
-					//can't jump if there's a checker there..
-					if (checkerBoardState.checkerRefs.hasOwnProperty(possJumpToCoordinate)) {
-						continue;
-					}
-					
-					turnIsOver = false;
-				} else {
-					if (
-						possMoveCoordianteRowIndex < newRowIndex &&
-						checkerSelectedToMove.isKing === false
-					) {
-						continue;
-					}
-					//we only care about adjacent moves to check for jumps
-					if ((newRowIndex - 1) !== possMoveCoordianteRowIndex) {
-						continue;
-					}
-					
-					//get the coordinate of where the checker can jump to
-					let jumpToRowIndex = possMoveCoordianteRowIndex - 1;
-					
-					//if we are thinking of jumping over C7, and we are on D6
-					let jumpToColumnLetter;
-					if (columnIndexMap[newColumnLetter] > columnIndexMap[possMoveCoordianteColumnLetter]) {
-						jumpToColumnLetter = squareIndexLetterMap[columnIndexMap[possMoveCoordianteColumnLetter] - 1]
-					} else {
-						jumpToColumnLetter = squareIndexLetterMap[columnIndexMap[possMoveCoordianteColumnLetter] + 1]
-					}
-					
-					let possJumpToCoordinate = jumpToColumnLetter + jumpToRowIndex;
-					
-					//can't jump if there's a checker there..
-					if (checkerBoardState.checkerRefs.hasOwnProperty(possJumpToCoordinate)) {
-						continue;
-					}
-					
-					turnIsOver = false;
-				}
+			//only set the checker ref on an actual checker click, coordinate updated above
+			let updateMoveResults = checkerSelectedToMove.updateMoveCoordinates(this.coordinate, false);
+			if (
+				updateMoveResults.finalCoordiantes.length > 0 &&
+				updateMoveResults.canMakeJumps === true
+			) {
+				turnIsOver = false;
 			}
 		}
-		
-		//if square 1 diag in same direction occupied by a checker of the opposite color..
-			//if square 1 passed that is empty..
-					//{can keep jumping is true}  {highlight all possible jump options} //the goal is to keep turnIsOver as false so the user keeps jumping
-		
-		
 		
 		if (turnIsOver === true) {
 			checkerBoardState[PlayerIsTurn._id] = PlayerIsTurn;
@@ -292,7 +185,6 @@ class Square extends Component{
 const mapStateToProps = (state) => ({
 	checkerBoardState: state.checkerBoard,
 	coordinateMapToColumn: state.coordinateMapToColumn,
-	checkerSelectedToMove: state.checkerSelectedToMove,
 	checkerBoardRef: state.checkerBoardRef
 });
 

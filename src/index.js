@@ -60,6 +60,7 @@ let initialState = {
 };
 
 function rootReducer(state = {}, action) {
+	let coordinate;
 	switch(action.type) {
 		case 'checkerBoard': //this generally doesn't work find out why..
 			return {
@@ -69,41 +70,13 @@ function rootReducer(state = {}, action) {
 					...action.value
 				}
 			};
-			
-		case 'checkerSelectedToMove':
-			return {
-				...state,
-				checkerBoard: {
-					...state.checkerBoard,
-					checkerSelectedToMove: action.value
-				}
-			};
 		
 		case 'checkerSelectedToMoveCoordinate':
-			console.log('updates checker selected coordinate', {
-				...state,
-				checkerBoard: {
-					...state.checkerBoard,
-					checkerSelectedToMove: {
-						...state.checkerBoard.checkerSelectedToMove,
-						props: {
-							...state.checkerBoard.checkerSelectedToMove.props,
-							coordinate: action.value
-						}
-					}
-				}
-			});
 			return {
 				...state,
 				checkerBoard: {
 					...state.checkerBoard,
-					checkerSelectedToMove: {
-						...state.checkerBoard.checkerSelectedToMove,
-						props: {
-							...state.checkerBoard.checkerSelectedToMove.props,
-							coordinate: action.value
-						}
-					}
+					checkerSelectedToMoveCoordinate: action.value
 				}
 			};
 			
@@ -115,8 +88,9 @@ function rootReducer(state = {}, action) {
 					possibleMoveCoordinates: action.value
 				}
 			};
+			
 		case 'checkerRef':
-			let coordinate = action.value.props.coordinate;
+			coordinate = action.value.props.coordinate;
 			return {
 				...state,
 				checkerBoard: {
@@ -127,6 +101,21 @@ function rootReducer(state = {}, action) {
 					}
 				}
 			};
+			
+		case 'checkerRefRemove':
+			coordinate = action.value.props.coordinate;
+			let checkerRefs = state.checkerBoard.checkerRefs;
+			delete checkerRefs[coordinate];
+			return {
+				...state,
+				checkerBoard: {
+					...state.checkerBoard,
+					checkerRefs: {
+						...checkerRefs
+					}
+				}
+			};
+			
 		case 'checkerBoardRef':
 			return {
 				...state,

@@ -38,12 +38,15 @@ class CheckerBoard extends Component{
 	}
 	
 	moveChecker(Player, newCoordinate) {
-		let checkerSelectedToMove = this.props.checkerBoardState.checkerSelectedToMove;
+		let checkerBoardState = this.props.checkerBoardState;
+		let checkerSelectedToMove = checkerBoardState.checkerRefs[checkerBoardState.checkerSelectedToMoveCoordinate];
+		let indexOfOldCoordinate = this.getIndexOfCoordinateInMap(
+			Player,
+			checkerSelectedToMove.props.coordinate
+		);
+		
 		Player.checkerMap.splice(
-			this.getIndexOfCoordinateInMap(
-				Player,
-				checkerSelectedToMove.props.coordinate
-			),
+			indexOfOldCoordinate,
 			1,
 			newCoordinate
 		);
