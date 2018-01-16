@@ -81,11 +81,12 @@ function rootReducer(state = {}, action) {
 			};
 			
 		case 'possibleMoveCoordinates':
+			let newPossMoves = action.value;
 			return {
 				...state,
 				checkerBoard: {
 					...state.checkerBoard,
-					possibleMoveCoordinates: action.value
+					possibleMoveCoordinates: newPossMoves
 				}
 			};
 			

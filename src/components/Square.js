@@ -12,29 +12,25 @@ class Square extends Component{
 	}
 	
 	componentWillMount() {
-		
+	
 	}
 	
 	getSquareClass() {
 		let squareClass = null;
-		if (!(this.props.rowIndex % 2 === 0)) {
-			squareClass = !(this.props.squareIndex % 2 === 0) ? 'black square' : 'red square';
+		if (this.props.rowIndex % 2 !== 0) {
+			squareClass = this.props.squareIndex % 2 !== 0 ? 'black square' : 'red square';
 		} else {
-			squareClass = !(this.props.squareIndex % 2 === 0) ? 'red square' : 'black square';
+			squareClass = this.props.squareIndex % 2 !== 0 ? 'red square' : 'black square';
+		}
+		
+		if (this.props.checkerBoardState.possibleMoveCoordinates.includes(this.coordinate)) {
+			squareClass += ' possMove';
 		}
 		
 		return squareClass;
 	}
 	
 	canCheckerMoveToMe() {
-		//check if square is black
-		if (
-			this.getSquareClass() !== 'black square' ||
-			this.refs.hasOwnProperty('child-checker')
-		) {
-			return false;
-		}
-		
 		const checkerBoardState = this.props.checkerBoardState;
 		const { checkerSelectedToMoveCoordinate } = checkerBoardState;
 		const checkerSelectedToMove = checkerBoardState.checkerRefs[checkerSelectedToMoveCoordinate];
@@ -131,6 +127,7 @@ class Square extends Component{
 			checkerBoardState.Player1.isTurn = !checkerBoardState.Player1.isTurn;
 			checkerBoardState.Player2.isTurn = !checkerBoardState.Player2.isTurn;
 			
+			checkerBoardState.possibleMoveCoordinates = [];
 			this.props.actions.setCheckerboard(checkerBoardState);
 		}
 	}

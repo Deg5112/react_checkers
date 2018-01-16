@@ -29,6 +29,23 @@ class Checker extends Component{
 		let coordinate = newCoordinateAfterJump ? newCoordinateAfterJump : this.props.coordinate;
 		let coordinateSplit;
 		
+		let PlayerIsTurn = null;
+		let	PlayerNotIsTurn = null;
+		
+		if (checkerBoardState.Player1.isTurn === true) {
+			PlayerIsTurn = checkerBoardState.Player1;
+			PlayerNotIsTurn = checkerBoardState.Player2;
+		} else {
+			PlayerIsTurn = checkerBoardState.Player2;
+			PlayerNotIsTurn = checkerBoardState.Player1;
+		}
+		
+		if (this.props.playerId !== PlayerIsTurn._id) {
+			return;
+		}
+		
+		console.log('checker', this);
+		
 		coordinateSplit = coordinate.split('');
 		
 		let columnLetter = coordinateSplit[0];
@@ -124,20 +141,6 @@ class Checker extends Component{
 		if (possibleRowMoveDownTwo && possibleColumnMoveleftTwo) {
 			coordinateMoveDownLeftTwo = possibleColumnMoveleftTwo + possibleRowMoveDownTwo;
 			possibleMovesCoordinates.push(coordinateMoveDownLeftTwo);
-		}
-		
-		//At this point we have all the possible coordinate.
-		//loop through each coordiante.. and check if each coordiante is valid
-		//get player turn.. turn this into method
-		let PlayerIsTurn = null;
-		let	PlayerNotIsTurn = null;
-		
-		if (checkerBoardState.Player1.isTurn === true) {
-			PlayerIsTurn = checkerBoardState.Player1;
-			PlayerNotIsTurn = checkerBoardState.Player2;
-		} else {
-			PlayerIsTurn = checkerBoardState.Player2;
-			PlayerNotIsTurn = checkerBoardState.Player1;
 		}
 		
 		const possibleMoveCoordiantesLength = possibleMovesCoordinates.length;
