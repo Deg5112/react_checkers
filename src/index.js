@@ -42,7 +42,7 @@ let initialState = {
 					'B2', 'D2', 'F2', 'H2',
 					'A3', 'C3', 'E3', 'G3'
 				],
-				true,
+				false,
 				[]
 			),
 		Player2:
@@ -53,7 +53,7 @@ let initialState = {
 					'A7', 'C7', 'E7', 'G7',
 					'B8', 'D8', 'F8', 'H8'
 				],
-				false,
+				true,
 				[]
 			),
 	}

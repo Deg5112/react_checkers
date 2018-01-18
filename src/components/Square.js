@@ -136,7 +136,6 @@ class Square extends Component{
 		let coordinateMap = this.props.coordinateMapToColumn.squareIndex;
 		let squareCoordinate = coordinateMap[this.props.squareIndex]+this.props.rowIndex;
 		this.coordinate = squareCoordinate;
-		let squareClass = this.getSquareClass();
 		let renderSquare;
 		let playerId;
 		//check if the current square coordinate exists in the either of the player coordinate check map
@@ -152,7 +151,7 @@ class Square extends Component{
 		if (typeof playerId !== 'undefined'){
 			renderSquare = (
 				<div
-					className={squareClass}
+					className={this.getSquareClass()}
 					key={this.props.squareIndex}
 				>
 					<Checker
@@ -167,7 +166,7 @@ class Square extends Component{
 			renderSquare = (
 				<div
 					ref = {el => this.el = el}
-					className={squareClass}
+					className={this.getSquareClass()}
 					key={this.props.squareIndex}
 					onClick={() => { this.canCheckerMoveToMe() }}
 				></div>
