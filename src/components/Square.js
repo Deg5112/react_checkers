@@ -71,6 +71,7 @@ class Square extends Component{
 		
 		//logic to remove the jumped checker
 		const rowDiff = Math.abs(Math.abs(oldRowIndex) - Math.abs(newRowIndex));
+
 		if (rowDiff > 1) {
 			//if should jump
 			const jumpedRowIndex = (oldRowIndex > newRowIndex) ? oldRowIndex - 1 : oldRowIndex + 1;

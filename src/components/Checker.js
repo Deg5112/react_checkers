@@ -17,6 +17,85 @@ class Checker extends Component{
 		}
 		this.props.actions.setCheckerRef(this);
 	}
+
+    getInitialPossibleColumnsRows(columnIndex, rowIndex) {
+        //get all moves right
+        let possibleColumnMoves = {};
+        for (let x = 1; x <= 7; x++) {
+            if (columnIndex + x <= 8) {
+                let possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + x];
+                possibleColumnMoves['right'+x] = possibleColumnMoveRight;
+            }
+        }
+
+        //get all moves left
+        for (let i = 7; i >= 1; i--) {
+            if (columnIndex - i >= 1) {
+                let possibleColumnMoveleft = this.props.coordinateMapToColumn.squareIndex[columnIndex - i];
+                possibleColumnMoves['left'+i] = possibleColumnMoveleft;
+            }
+        }
+
+        //poss move down
+        let possibleRowMoves = {};
+        for (let z = 1; z <= 8; z++) {
+            if (rowIndex + z <= 8) {
+                let possibleRowMoveDown = parseInt(rowIndex, 10) + z;
+                possibleRowMoves['down'+z] = possibleRowMoveDown;
+            }
+        }
+
+        //move up
+        for (let g = 7; g >= 1; g--) {
+            if (rowIndex - g >= 1) {
+                let possibleRowMoveUp = parseInt(rowIndex, 10) - g;
+                possibleRowMoves['up'+g] = possibleRowMoveUp;
+            }
+        }
+
+        return {
+            possibleRowMoves: possibleRowMoves,
+			possibleColumnMoves: possibleColumnMoves
+		};
+    }
+
+    getPossibleMovesCoordinates(possibleColumnMoves, possibleRowMoves) {
+		let possibleMovesCoordinates = [];
+		for (let x = 1; x<=8; x++) {
+			//upX + rightX
+			if (
+				possibleRowMoves.hasOwnProperty('up'+x) &&
+				possibleColumnMoves.hasOwnProperty('right'+x)
+			) {
+				possibleMovesCoordinates.push(possibleColumnMoves['right'+x]+possibleRowMoves['up'+x]);
+			}
+			//upx + leftx
+			if (
+				possibleRowMoves.hasOwnProperty('up'+x) &&
+				possibleColumnMoves.hasOwnProperty('left'+x)
+			) {
+				possibleMovesCoordinates.push(possibleColumnMoves['left'+x]+possibleRowMoves['up'+x]);
+			}
+
+			//downx + rightx
+			if (
+				possibleRowMoves.hasOwnProperty('down'+x) &&
+				possibleColumnMoves.hasOwnProperty('right'+x)
+			) {
+				possibleMovesCoordinates.push(possibleColumnMoves['right'+x]+possibleRowMoves['down'+x]);
+			}
+
+			//downx + leftx
+			if (
+				possibleRowMoves.hasOwnProperty('down'+x) &&
+				possibleColumnMoves.hasOwnProperty('left'+x)
+			) {
+				possibleMovesCoordinates.push(possibleColumnMoves['left'+x]+possibleRowMoves['down'+x]);
+			}
+		}
+
+		return possibleMovesCoordinates;
+	}
 	
 	updateMoveCoordinates(newCoordinateAfterJump, setCheckerSelected = true) {
 		if (setCheckerSelected == true) {
@@ -44,107 +123,19 @@ class Checker extends Component{
 			return;
 		}
 		
-		console.log('checker', this);
-		
 		coordinateSplit = coordinate.split('');
 		
 		let columnLetter = coordinateSplit[0];
 		let rowIndex = parseInt(coordinateSplit[1], 10);
 		let columnIndex = this.props.coordinateMapToColumn.columnIndex[columnLetter];
-		
-		let possibleColumnMoveRight;
-		if (columnIndex < 8) {
-			possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + 1];
-		}
-		
-		let possibleColumnMoveRightTwo;
-		if (columnIndex < 8) {
-			possibleColumnMoveRightTwo = this.props.coordinateMapToColumn.squareIndex[columnIndex + 2];
-		}
-		
-		let possibleColumnMoveleft;
-		if (columnIndex > 1) {
-			possibleColumnMoveleft = this.props.coordinateMapToColumn.squareIndex[columnIndex - 1];
-		}
-		
-		let possibleColumnMoveleftTwo;
-		if (columnIndex > 2) {
-			possibleColumnMoveleftTwo = this.props.coordinateMapToColumn.squareIndex[columnIndex - 2];
-		}
-		
-		let possibleRowMoveDown;
-		if (rowIndex < 8) {
-			possibleRowMoveDown =  parseInt(rowIndex, 10) + 1;
-		}
-		
-		let possibleRowMoveDownTwo;
-		if (rowIndex < 7) {
-			possibleRowMoveDownTwo =  parseInt(rowIndex, 10) + 2;
-		}
-		
-		let possibleRowMoveUp;
-		if (rowIndex > 1) {
-			possibleRowMoveUp =  parseInt(rowIndex, 10) - 1;
-		}
-		
-		let possibleRowMoveUpTwo;
-		if (rowIndex > 2) {
-			possibleRowMoveUpTwo =  parseInt(rowIndex, 10) - 2;
-		}
-		
-		let finalCoordiantes = [];
-		let possibleMovesCoordinates = [];
-		
-		let coordinateMoveUpRight;
-		if (possibleRowMoveUp && possibleColumnMoveRight) {
-			coordinateMoveUpRight = possibleColumnMoveRight + possibleRowMoveUp;
-			possibleMovesCoordinates.push(coordinateMoveUpRight);
-		}
-		
-		let coordinateMoveUpRightTwo;
-		if (possibleRowMoveUpTwo && possibleColumnMoveRightTwo) {
-			coordinateMoveUpRightTwo = possibleColumnMoveRightTwo + possibleRowMoveUpTwo;
-			possibleMovesCoordinates.push(coordinateMoveUpRightTwo);
-		}
-		
-		let coordinateMoveUpLeft;
-		if (possibleRowMoveUp && possibleColumnMoveleft) {
-			coordinateMoveUpLeft = possibleColumnMoveleft + possibleRowMoveUp;
-			possibleMovesCoordinates.push(coordinateMoveUpLeft);
-		}
-		
-		let coordinateMoveUpLeftTwo;
-		if (possibleRowMoveUpTwo && possibleColumnMoveleftTwo) {
-			coordinateMoveUpLeftTwo = possibleColumnMoveleftTwo + possibleRowMoveUpTwo;
-			possibleMovesCoordinates.push(coordinateMoveUpLeftTwo);
-		}
-		
-		let coordinateMoveDownRight;
-		if (possibleRowMoveDown && possibleColumnMoveRight) {
-			coordinateMoveDownRight = possibleColumnMoveRight + possibleRowMoveDown;
-			possibleMovesCoordinates.push(coordinateMoveDownRight);
-		}
-		
-		let coordinateMoveDownRightTwo;
-		if (possibleRowMoveDownTwo && possibleColumnMoveRightTwo) {
-			coordinateMoveDownRightTwo = possibleColumnMoveRightTwo + possibleRowMoveDownTwo;
-			possibleMovesCoordinates.push(coordinateMoveDownRightTwo);
-		}
-		
-		let coordinateMoveDownLeft;
-		if (possibleRowMoveDown && possibleColumnMoveleft) {
-			coordinateMoveDownLeft = possibleColumnMoveleft + possibleRowMoveDown;
-			possibleMovesCoordinates.push(coordinateMoveDownLeft);
-		}
-		
-		let coordinateMoveDownLeftTwo;
-		if (possibleRowMoveDownTwo && possibleColumnMoveleftTwo) {
-			coordinateMoveDownLeftTwo = possibleColumnMoveleftTwo + possibleRowMoveDownTwo;
-			possibleMovesCoordinates.push(coordinateMoveDownLeftTwo);
-		}
-		
-		const possibleMoveCoordiantesLength = possibleMovesCoordinates.length;
+
+		let { possibleColumnMoves, possibleRowMoves } = this.getInitialPossibleColumnsRows(columnIndex, rowIndex);
+        let possibleMovesCoordinates = this.getPossibleMovesCoordinates(possibleColumnMoves, possibleRowMoves);
+
+		//check if coordinate is valid
 		let canMakeJumps = false;
+        let finalCoordiantes = [];
+        const possibleMoveCoordiantesLength = possibleMovesCoordinates.length;
 		for (let i = 0; i<possibleMoveCoordiantesLength; i++) {
 			let possMoveCoordinate = possibleMovesCoordinates[i];
 			let possMoveCoordinateSplit = possMoveCoordinate.split('');
