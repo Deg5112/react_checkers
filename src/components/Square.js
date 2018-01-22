@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as Actions from '../testActions';
+import * as Actions from '../actions';
 import Checker from './Checker';
 
 class Square extends Component{
