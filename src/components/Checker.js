@@ -15,8 +15,36 @@ class Checker extends Component{
 		if (kingMap.includes(this.props.coordinate)) {
 			this.isKing = true;
 		}
+
 		this.props.actions.setCheckerRef(this);
 	}
+
+    canMove() {
+        const checkerBoardState = this.props.checkerBoardState;
+        let PlayerIsTurn = null;
+        let	PlayerNotIsTurn = null;
+
+        if (checkerBoardState.Player1.isTurn === true) {
+            PlayerIsTurn = checkerBoardState.Player1;
+            PlayerNotIsTurn = checkerBoardState.Player2;
+        } else {
+            PlayerIsTurn = checkerBoardState.Player2;
+            PlayerNotIsTurn = checkerBoardState.Player1;
+        }
+
+        if (
+            this.hasMoves() === true &&
+            PlayerIsTurn._id === this.props.playerId
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    hasMoves() {
+        return this.updateMoveCoordinates(false, false, true);
+    }
 
     getInitialPossibleColumnsRows(columnIndex, rowIndex) {
         let possibleColumnMoves = {};
@@ -95,7 +123,7 @@ class Checker extends Component{
 		return possibleMovesCoordinates;
 	}
 	
-	updateMoveCoordinates(newCoordinateAfterJump, setCheckerSelected = true) {
+	updateMoveCoordinates(newCoordinateAfterJump = false, setCheckerSelected = true, getCanMoveBool = false) {
 		if (setCheckerSelected == true) {
 			this.props.actions.setCheckerSelectedToMoveCoordinate(this.props.coordinate);
 		}
@@ -192,17 +220,24 @@ class Checker extends Component{
 				
 				canMakeJumps = true;
 			} else {
-                if (setCheckerSelected === false) { //means checker is jumping
+				//ambiguous, means checker is jumping or we just need bool
+                if (setCheckerSelected === false && getCanMoveBool === false) { //means checker is jumping
                     continue;
                 }
 			}
 			
 			finalCoordiantes.push(possMoveCoordinate);
 		}
+
+		if (getCanMoveBool === true) {
+			if (finalCoordiantes.length > 0) {
+                return true;
+			} else {
+				return false;
+			}
+		}
 		
 		this.props.actions.setPossibleMoveCoordinates(finalCoordiantes);
-		console.log(finalCoordiantes);
-		
 		return {
 			finalCoordiantes: finalCoordiantes,
 			canMakeJumps: canMakeJumps
@@ -212,10 +247,11 @@ class Checker extends Component{
 	render() {
 		let checkerColor = (this.props.playerId === 'Player1') ? 'red' : 'black';
 		let kingClass = (this.isKing === true) ? ' king' : '';
+		let canMoveClass = (this.canMove() === true) ? ' canMove' : '';
 		return (
 			<div
 				onClick={() => {this.updateMoveCoordinates()}}
-				className={'checker ' + checkerColor + ' ' + kingClass}
+				className={'checker ' + checkerColor + ' ' + kingClass + canMoveClass}
 				key={this.props.rowIndex}
 			>
 				{this.isKing === true ?
