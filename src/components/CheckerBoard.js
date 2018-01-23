@@ -64,11 +64,22 @@ class CheckerBoard extends Component{
 		}
 	}
 	
-	jumpChecker(Player, coordinate) {
+	jumpChecker(Player, coordinate, jumpedCheckerIsKing) {
 		Player.checkerMap.splice(
 				this.getIndexOfCoordinateInMap(Player, coordinate),
 				1,
 			);
+
+        if (jumpedCheckerIsKing === true) {
+            Player.kingMap.splice(
+                this.getIndexOfCoordinateInMap(
+                    Player,
+                    coordinate,
+                    true
+                ),
+                1
+            );
+        }
 	}
 	
 	getIndexOfCoordinateInMap(Player, coordinate, kingMap = false){

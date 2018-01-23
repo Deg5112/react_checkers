@@ -88,7 +88,7 @@ class Square extends Component{
 					return;
 			}
 			
-			checkerBoardState.checkerBoardRef.jumpChecker(PlayerNotIsTurn, JumpedCheckerRef.props.coordinate);
+			checkerBoardState.checkerBoardRef.jumpChecker(PlayerNotIsTurn, JumpedCheckerRef.props.coordinate, JumpedCheckerRef.isKing);
 			delete checkerBoardState.checkerRefs[JumpedCheckerRef.props.coordinate];
 			checkerIsJumping = true;
 			checkerBoardState[PlayerNotIsTurn._id] = PlayerNotIsTurn;

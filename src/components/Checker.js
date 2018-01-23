@@ -171,6 +171,10 @@ class Checker extends Component{
 			let JumpedCheckerRef;
 			//logic to remove the jumped checker. // caculates the ref of what checker is jumped.. checks who it belongs to
 			const rowDiff = Math.abs(Math.abs(rowIndex) - Math.abs(possMoveCoordianteRowIndex));
+			if (rowDiff > 2) {
+				continue;
+			}
+
 			if (rowDiff > 1) {
 				//if should jump
 				const jumpedRowIndex = (rowIndex > possMoveCoordianteRowIndex) ? rowIndex - 1 : rowIndex + 1;
