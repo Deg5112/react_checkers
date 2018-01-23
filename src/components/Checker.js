@@ -19,39 +19,37 @@ class Checker extends Component{
 	}
 
     getInitialPossibleColumnsRows(columnIndex, rowIndex) {
-        //get all moves right
         let possibleColumnMoves = {};
+        let possibleRowMoves = {};
+
         for (let x = 1; x <= 7; x++) {
+            //get all moves right
             if (columnIndex + x <= 8) {
                 let possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + x];
                 possibleColumnMoves['right'+x] = possibleColumnMoveRight;
             }
+
+            //poss move down
+            if (rowIndex + x <= 8) {
+                let possibleRowMoveDown = parseInt(rowIndex, 10) + x;
+                possibleRowMoves['down'+x] = possibleRowMoveDown;
+            }
         }
 
-        //get all moves left
         for (let i = 7; i >= 1; i--) {
+            //get all moves left
             if (columnIndex - i >= 1) {
                 let possibleColumnMoveleft = this.props.coordinateMapToColumn.squareIndex[columnIndex - i];
                 possibleColumnMoves['left'+i] = possibleColumnMoveleft;
             }
-        }
 
-        //poss move down
-        let possibleRowMoves = {};
-        for (let z = 1; z <= 8; z++) {
-            if (rowIndex + z <= 8) {
-                let possibleRowMoveDown = parseInt(rowIndex, 10) + z;
-                possibleRowMoves['down'+z] = possibleRowMoveDown;
+            //move up
+            if (rowIndex - i >= 1) {
+                let possibleRowMoveUp = parseInt(rowIndex, 10) - i;
+                possibleRowMoves['up'+i] = possibleRowMoveUp;
             }
         }
 
-        //move up
-        for (let g = 7; g >= 1; g--) {
-            if (rowIndex - g >= 1) {
-                let possibleRowMoveUp = parseInt(rowIndex, 10) - g;
-                possibleRowMoves['up'+g] = possibleRowMoveUp;
-            }
-        }
 
         return {
             possibleRowMoves: possibleRowMoves,
@@ -193,6 +191,10 @@ class Checker extends Component{
 				}
 				
 				canMakeJumps = true;
+			} else {
+                if (setCheckerSelected === false) { //means checker is jumping
+                    continue;
+                }
 			}
 			
 			finalCoordiantes.push(possMoveCoordinate);
