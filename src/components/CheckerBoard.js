@@ -8,32 +8,12 @@ class CheckerBoard extends Component{
 	componentWillMount(){
 		this.props.actions.setCheckerBoardRef(this);
 	}
-	
-	checkPlayerTurn() {
-		
-	}
-	
-	didMoveMakeCheckerKing() {
-	
-	}
-	
-	canMoveChecker() {
-		
-	}
-	
-	canJumpChecker() {
-		
-	}
-	
+
 	didPlayerWin() {
 		
 	}
 	
 	newGame() {
-		
-	}
-
-	decideTurn() {
 		
 	}
 	
