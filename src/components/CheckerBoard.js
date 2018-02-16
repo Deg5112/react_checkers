@@ -9,6 +9,7 @@ class CheckerBoard extends Component{
 		this.props.actions.setCheckerBoardRef(this);
 	}
 
+	//TODO finish
 	didPlayerWin() {
 		
 	}
@@ -50,16 +51,16 @@ class CheckerBoard extends Component{
 				1,
 			);
 
-        if (jumpedCheckerIsKing === true) {
-            Player.kingMap.splice(
-                this.getIndexOfCoordinateInMap(
-                    Player,
-                    coordinate,
-                    true
-                ),
-                1
-            );
-        }
+			if (jumpedCheckerIsKing === true) {
+				Player.kingMap.splice(
+						this.getIndexOfCoordinateInMap(
+								Player,
+								coordinate,
+								true
+						),
+						1
+				);
+			}
 	}
 	
 	getIndexOfCoordinateInMap(Player, coordinate, kingMap = false){

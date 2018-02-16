@@ -20,69 +20,69 @@ class Checker extends Component{
 	}
 
     canMove() {
-        const checkerBoardState = this.props.checkerBoardState;
-        let PlayerIsTurn = null;
-        let	PlayerNotIsTurn = null;
+			const checkerBoardState = this.props.checkerBoardState;
+			let PlayerIsTurn = null;
+			let	PlayerNotIsTurn = null;
 
-        if (checkerBoardState.Player1.isTurn === true) {
-            PlayerIsTurn = checkerBoardState.Player1;
-            PlayerNotIsTurn = checkerBoardState.Player2;
-        } else {
-            PlayerIsTurn = checkerBoardState.Player2;
-            PlayerNotIsTurn = checkerBoardState.Player1;
-        }
+			if (checkerBoardState.Player1.isTurn === true) {
+					PlayerIsTurn = checkerBoardState.Player1;
+					PlayerNotIsTurn = checkerBoardState.Player2;
+			} else {
+					PlayerIsTurn = checkerBoardState.Player2;
+					PlayerNotIsTurn = checkerBoardState.Player1;
+			}
 
-        if (
-            this.hasMoves() === true &&
-            PlayerIsTurn._id === this.props.playerId
-        ) {
-            return true;
-        }
+			if (
+					this.hasMoves() === true &&
+					PlayerIsTurn._id === this.props.playerId
+			) {
+					return true;
+			}
 
-        return false;
+			return false;
     }
 
     hasMoves() {
-        return this.updateMoveCoordinates(false, false, true);
+			return this.updateMoveCoordinates(false, false, true);
     }
 
     getInitialPossibleColumnsRows(columnIndex, rowIndex) {
-        let possibleColumnMoves = {};
-        let possibleRowMoves = {};
+			let possibleColumnMoves = {};
+			let possibleRowMoves = {};
 
-        for (let x = 1; x <= 7; x++) {
-            //get all moves right
-            if (columnIndex + x <= 8) {
-                let possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + x];
-                possibleColumnMoves['right'+x] = possibleColumnMoveRight;
-            }
+			for (let x = 1; x <= 7; x++) {
+					//get all moves right
+					if (columnIndex + x <= 8) {
+						let possibleColumnMoveRight = this.props.coordinateMapToColumn.squareIndex[columnIndex + x];
+						possibleColumnMoves['right'+x] = possibleColumnMoveRight;
+					}
 
-            //poss move down
-            if (rowIndex + x <= 8) {
-                let possibleRowMoveDown = parseInt(rowIndex, 10) + x;
-                possibleRowMoves['down'+x] = possibleRowMoveDown;
-            }
-        }
+					//poss move down
+					if (rowIndex + x <= 8) {
+						let possibleRowMoveDown = parseInt(rowIndex, 10) + x;
+						possibleRowMoves['down'+x] = possibleRowMoveDown;
+					}
+			}
 
-        for (let i = 7; i >= 1; i--) {
-            //get all moves left
-            if (columnIndex - i >= 1) {
-                let possibleColumnMoveleft = this.props.coordinateMapToColumn.squareIndex[columnIndex - i];
-                possibleColumnMoves['left'+i] = possibleColumnMoveleft;
-            }
+			for (let i = 7; i >= 1; i--) {
+					//get all moves left
+					if (columnIndex - i >= 1) {
+						let possibleColumnMoveleft = this.props.coordinateMapToColumn.squareIndex[columnIndex - i];
+						possibleColumnMoves['left'+i] = possibleColumnMoveleft;
+					}
 
-            //move up
-            if (rowIndex - i >= 1) {
-                let possibleRowMoveUp = parseInt(rowIndex, 10) - i;
-                possibleRowMoves['up'+i] = possibleRowMoveUp;
-            }
-        }
+					//move up
+					if (rowIndex - i >= 1) {
+						let possibleRowMoveUp = parseInt(rowIndex, 10) - i;
+						possibleRowMoves['up'+i] = possibleRowMoveUp;
+					}
+			}
 
 
-        return {
-            possibleRowMoves: possibleRowMoves,
-			possibleColumnMoves: possibleColumnMoves
-		};
+			return {
+					possibleRowMoves: possibleRowMoves,
+					possibleColumnMoves: possibleColumnMoves
+			};
     }
 
     getPossibleMovesCoordinates(possibleColumnMoves, possibleRowMoves) {
@@ -156,12 +156,13 @@ class Checker extends Component{
 		let columnIndex = this.props.coordinateMapToColumn.columnIndex[columnLetter];
 
 		let { possibleColumnMoves, possibleRowMoves } = this.getInitialPossibleColumnsRows(columnIndex, rowIndex);
-        let possibleMovesCoordinates = this.getPossibleMovesCoordinates(possibleColumnMoves, possibleRowMoves);
+		let possibleMovesCoordinates = this.getPossibleMovesCoordinates(possibleColumnMoves, possibleRowMoves);
 
 		//check if coordinate is valid
 		let canMakeJumps = false;
-        let finalCoordiantes = [];
-        const possibleMoveCoordiantesLength = possibleMovesCoordinates.length;
+		let finalCoordiantes = [];
+		const possibleMoveCoordiantesLength = possibleMovesCoordinates.length;
+
 		for (let i = 0; i<possibleMoveCoordiantesLength; i++) {
 			let possMoveCoordinate = possibleMovesCoordinates[i];
 			let possMoveCoordinateSplit = possMoveCoordinate.split('');
@@ -221,9 +222,9 @@ class Checker extends Component{
 				canMakeJumps = true;
 			} else {
 				//ambiguous, means checker is jumping or we just need bool
-                if (setCheckerSelected === false && getCanMoveBool === false) { //means checker is jumping
-                    continue;
-                }
+				if (setCheckerSelected === false && getCanMoveBool === false) { //means checker is jumping
+						continue;
+				}
 			}
 			
 			finalCoordiantes.push(possMoveCoordinate);
