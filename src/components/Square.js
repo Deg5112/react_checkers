@@ -178,17 +178,14 @@ class Square extends Component{
   }
 }
 
-// export default App;
 const mapStateToProps = (state) => ({
   checkerBoardState: state.checkerBoard,
   coordinateMapToColumn: state.coordinateMapToColumn,
   checkerBoardRef: state.checkerBoardRef
 });
 
-
 const mapDispatchToProps = (dispatch) => {
   return {actions: bindActionCreators(Actions, dispatch)}
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Square);

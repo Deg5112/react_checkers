@@ -93,7 +93,6 @@ class CheckerBoard extends Component{
   }
 }
 
-// export default App;
 const mapStateToProps = (state) => ({
   checkerBoardState: state.checkerBoard
 });
