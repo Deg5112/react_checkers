@@ -97,11 +97,9 @@ const mapStateToProps = (state) => ({
   checkerBoardState: state.checkerBoard
 });
 
-
 const mapDispatchToProps = (dispatch) => {
   return {actions: bindActionCreators(Actions, dispatch)}
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckerBoard);
 
