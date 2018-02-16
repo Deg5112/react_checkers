@@ -11,10 +11,6 @@ class Square extends Component{
     this.coordinate = null;
   }
 
-  componentWillMount() {
-
-  }
-
   getSquareClass() {
     let squareClass = null;
     if (this.props.rowIndex % 2 !== 0) {
