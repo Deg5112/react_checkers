@@ -62,7 +62,7 @@ let initialState = {
 function rootReducer(state = {}, action) {
 	let coordinate;
 	switch(action.type) {
-		case 'checkerBoard': //this generally doesn't work find out why..
+		case 'checkerBoard':
 			return {
 				...state,
 				checkerBoard: {
